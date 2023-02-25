@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.kitchen.god</groupId>
-	<artifactId>kitchen-platform</artifactId>
+	<artifactId>kitchen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kitchen</name>
 	<description>kitchenGodPlatform</description>

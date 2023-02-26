@@ -3,6 +3,9 @@ package com.kitchen.god.sdk.log4j;
 import com.kitchen.god.sdk.log4j.spi.LoggingEvent;
 import com.kitchen.god.sdk.log4j.spi.OptionHandler;
 
+/**
+ * @author wanghongjie
+ */
 public abstract class Layout implements OptionHandler {
     public static final String LINE_SEP = System.getProperty("line.separator");
 

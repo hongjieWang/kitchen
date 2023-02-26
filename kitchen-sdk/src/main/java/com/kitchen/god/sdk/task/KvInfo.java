@@ -15,6 +15,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimerTask;
 
+/**
+ * 记录QPS相关任务
+ *
+ * @author wanghongjie
+ */
 public class KvInfo extends TimerTask {
     private static final String KV_LOG_TEMPLATE = ("{`time`:`{}`,`key`:`{}`,`hostname`:`" + Utils.HOST_NAME + "`,`logtype`:`{}`,`v1`:{},`v2`:{},`min`:{},`max`:{}}").replace('`', '"');
 
@@ -32,33 +37,39 @@ public class KvInfo extends TimerTask {
         StringBuilder logs = new StringBuilder(1024);
         Map<KeysObject, ValuesObject> cached = KvHelpers.cached;
         Set<KeysObject> keysObjects = cached.keySet();
-        Map<KeysObject, ValuesObject> tmpMap = new HashMap<KeysObject, ValuesObject>(keysObjects.size());
+        Map<KeysObject, ValuesObject> tmpMap = new HashMap<>(keysObjects.size());
         for (KeysObject ko : keysObjects) {
-            Val v = ((ValuesObject) cached.get(ko)).getValues();
-            if (v.v1() == 0L && v.v2() == 0L)
+            Val v = cached.get(ko).getValues();
+            if (v.v1() == 0L && v.v2() == 0L) {
                 continue;
-            if (ko.getType().isPercent() && v.v1() > v.v2())
+            }
+            if (ko.getType().isPercent() && v.v1() > v.v2()) {
                 v = new Val(v.v2(), v.v2(), v.min(), v.max());
+            }
             String log = LogFormatter.format(KV_LOG_TEMPLATE, nowTime, ko, ko.getType(), v.v1(), v.v2(), v.min(), v.max());
-            if (logs.length() > 0)
+            if (logs.length() > 0) {
                 logs.append(Layout.LINE_SEP);
+            }
             logs.append(log);
             tmpMap.put(ko, new ValuesObject(ko.getType(), v.v1(), v.v2()));
         }
-        if (logs.length() > 0)
+        if (logs.length() > 0) {
             MetricsLogger.KV_LOGGER.info(logs.toString());
+        }
         for (KeysObject ko : tmpMap.keySet()) {
             ValuesObject vo = tmpMap.get(ko);
-            if (vo == null)
+            if (vo == null) {
                 continue;
+            }
             if (ko.getType() == Type.CUR) {
                 cached.remove(ko);
                 continue;
             }
             Val v = vo.getValues();
             ValuesObject cachedVal = cached.get(ko);
-            if (cachedVal != null)
+            if (cachedVal != null) {
                 cachedVal.deductCount(v.v1(), v.v2());
+            }
         }
     }
 }

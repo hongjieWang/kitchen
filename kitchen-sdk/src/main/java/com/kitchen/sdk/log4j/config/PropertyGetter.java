@@ -1,7 +1,7 @@
 package com.kitchen.sdk.log4j.config;
 
+import com.kitchen.sdk.log4j.Priority;
 import com.kitchen.sdk.log4j.helpers.LogLog;
-import jakarta.annotation.Priority;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

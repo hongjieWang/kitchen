@@ -2,11 +2,12 @@ package com.kitchen.sdk.log4j.config;
 
 import com.kitchen.sdk.log4j.Appender;
 import com.kitchen.sdk.log4j.Level;
+import com.kitchen.sdk.log4j.Priority;
 import com.kitchen.sdk.log4j.helpers.LogLog;
 import com.kitchen.sdk.log4j.helpers.OptionConverter;
 import com.kitchen.sdk.log4j.spi.ErrorHandler;
 import com.kitchen.sdk.log4j.spi.OptionHandler;
-import jakarta.annotation.Priority;
+
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

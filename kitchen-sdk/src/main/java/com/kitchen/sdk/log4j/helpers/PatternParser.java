@@ -387,13 +387,18 @@ public class PatternParser {
         @Override
         public String convert(LoggingEvent event) {
             LocationInfo locationInfo = event.getLocationInformation();
-            return switch (this.type) {
-                case 1000 -> locationInfo.fullInfo;
-                case 1001 -> locationInfo.getMethodName();
-                case 1003 -> locationInfo.getLineNumber();
-                case 1004 -> locationInfo.getFileName();
-                default -> null;
-            };
+            switch (this.type) {
+                case 1000:
+                    return locationInfo.fullInfo;
+                case 1001:
+                    return locationInfo.getMethodName();
+                case 1003:
+                    return locationInfo.getLineNumber();
+                case 1004:
+                    return locationInfo.getFileName();
+                default:
+                    return null;
+            }
         }
     }
 

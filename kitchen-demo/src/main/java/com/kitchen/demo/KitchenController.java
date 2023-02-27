@@ -1,6 +1,6 @@
 package com.kitchen.demo;
 
-import com.kitchen.god.sdk.MetricsClient;
+import com.kitchen.sdk.MetricsClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,0 +1,40 @@
+package com.kitchen.sdk.log4j.helpers;
+
+import com.kitchen.sdk.log4j.spi.ErrorHandler;
+
+import java.io.FilterWriter;
+import java.io.Writer;
+
+public class QuietWriter extends FilterWriter {
+    protected ErrorHandler errorHandler;
+
+    public QuietWriter(Writer writer, ErrorHandler errorHandler) {
+        super(writer);
+        setErrorHandler(errorHandler);
+    }
+
+    public void write(String string) {
+        if (string != null)
+            try {
+                this.out.write(string);
+            } catch (Exception e) {
+                this.errorHandler.error("Failed to write [" + string + "].", e, 1);
+            }
+    }
+
+    @Override
+    public void flush() {
+        try {
+            this.out.flush();
+        } catch (Exception e) {
+            this.errorHandler.error("Failed to flush writer,", e, 2);
+        }
+    }
+
+
+    public void setErrorHandler(ErrorHandler eh) {
+        if (eh == null)
+            throw new IllegalArgumentException("Attempted to set null ErrorHandler.");
+        this.errorHandler = eh;
+    }
+}

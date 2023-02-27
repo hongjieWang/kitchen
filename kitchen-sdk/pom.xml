@@ -14,6 +14,14 @@
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
+        <pulsar.version>2.11.0</pulsar.version>
     </properties>
 
+    <dependencies>
+        <!-- in your <dependencies> block -->
+        <dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-client</artifactId>
+        </dependency>
+    </dependencies>
 </project>

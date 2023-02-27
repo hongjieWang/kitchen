@@ -2,7 +2,6 @@ package com.kitchen.sdk.loggers;
 
 
 import com.kitchen.sdk.MetricsRegister;
-import com.kitchen.god.sdk.log4j.*;
 import com.kitchen.sdk.log4j.*;
 import com.kitchen.sdk.log4j.helpers.LogLog;
 import com.kitchen.sdk.util.StringUtil;
@@ -10,11 +9,17 @@ import com.kitchen.sdk.util.StringUtil;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 import static java.lang.Boolean.TRUE;
 
 
+/**
+ * 日志工厂类
+ *
+ * @author wanghongjie
+ */
 public class MetricsLoggerFactory {
     private static final String PARTTERN = "'.'yyyy-MM-dd";
 
@@ -77,28 +82,26 @@ public class MetricsLoggerFactory {
 
     private static void doInit(boolean start) {
         Properties properties = new Properties();
-        InputStream inputStream = new BufferedInputStream(MetricsLoggerFactory.class.getClassLoader().getResourceAsStream("metrics_ump.properties"));
+        InputStream inputStream = new BufferedInputStream(Objects.requireNonNull(MetricsLoggerFactory.class.getClassLoader().getResourceAsStream(METRICS_UMP_PROPERTIES)));
         try {
             properties.load(inputStream);
-            APP_NAME = properties.getProperty("metrics.appname", APP_NAME);
-            MONITOR_FILE_PATH = properties.getProperty("metrics.file.path", "/var/log/footstone/metrics-logs");
-            MAX_BACKUP_INDEX = Integer.parseInt(properties.getProperty("metrics.file.maxbackupindex", "7"));
-            SLOW_SQL_THRESHOLD = Integer.parseInt(properties.getProperty("metrics.db.sql.threshold", "3000"));
+            APP_NAME = properties.getProperty(P_APP_NAME, APP_NAME);
+            MONITOR_FILE_PATH = properties.getProperty(P_FILE_PATH, MONITOR_FILE_PATH_DEFAULT);
+            MAX_BACKUP_INDEX = Integer.parseInt(properties.getProperty(P_MAXBACKUPINDEX, String.valueOf(MAX_BACKUP_INDEX)));
+            SLOW_SQL_THRESHOLD = Integer.parseInt(properties.getProperty(P_DB_SLOW_SQL, "3000"));
             if (!start) {
-                ENABLE = Boolean.parseBoolean(properties.getProperty("metrics.enable", "true"));
+                ENABLE = Boolean.parseBoolean(properties.getProperty(METRICS_UMP_ENABLE, "true"));
             }
-            boolean isJvmEnable = Boolean.parseBoolean(properties.getProperty("metrics.jvm.autoenable", TRUE.toString()));
-            boolean isHbEnable = Boolean.parseBoolean(properties.getProperty("metrics.hb.autoenable", TRUE.toString()));
+            boolean isJvmEnable = Boolean.parseBoolean(properties.getProperty(P_JVM_ENABLE, TRUE.toString()));
+            boolean isHbEnable = Boolean.parseBoolean(properties.getProperty(P_HB_ENABLE, TRUE.toString()));
             if (isJvmEnable && ENABLE) {
                 MetricsRegister.registerJVMInfo(APP_NAME + ".jvm");
             }
             if (isHbEnable && ENABLE) {
                 MetricsRegister.registerHeartBeats(APP_NAME + ".hb");
             }
-//            if (dbEnable && ENABLE)
-//                MetricsRegister.registerDruidMonitor(APP_NAME + ".db", APP_NAME + ".slowsql");
             if (ENABLE) {
-                MetricsRegister.registerKVInfo();
+                MetricsRegister.registerKVInfo(APP_NAME);
             }
         } catch (IOException e) {
             LogLog.error("metrics_ump.properties not exists in classpath.");
@@ -118,7 +121,7 @@ public class MetricsLoggerFactory {
         try {
             PatternLayout patternLayout = new PatternLayout();
             String fileName = createFileName(loggerName);
-            MonitorLogAppender appender = new MonitorLogAppender(patternLayout, fileName, "'.'yyyy-MM-dd");
+            MonitorLogAppender appender = new MonitorLogAppender(patternLayout, fileName, PARTTERN);
             appender.setMaxBackupIndex(MAX_BACKUP_INDEX);
             appender.setBufferedIO(false);
             logger.addAppender(appender);
@@ -132,6 +135,6 @@ public class MetricsLoggerFactory {
 
     private static String createFileName(String name) {
         String appNamePostFix = StringUtil.isNotBlank(APP_NAME) ? ("." + APP_NAME) : "";
-        return MONITOR_FILE_PATH + "/" + "metrics" + "-" + name + appNamePostFix + ".log";
+        return MONITOR_FILE_PATH + "/" + MONITOR_FILE_NAME_DEFAULT + "-" + name + appNamePostFix + ".log";
     }
 }

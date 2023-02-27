@@ -4,7 +4,6 @@ import com.kitchen.sdk.log4j.config.PropertySetter;
 import com.kitchen.sdk.log4j.helpers.LogLog;
 import com.kitchen.sdk.log4j.helpers.OptionConverter;
 import com.kitchen.sdk.log4j.or.RendererMap;
-import com.kitchen.god.sdk.log4j.spi.*;
 import com.kitchen.sdk.log4j.spi.*;
 
 import java.io.FileInputStream;
@@ -16,11 +15,11 @@ import java.net.URLConnection;
 import java.util.*;
 
 public class PropertyConfigurator implements Configurator {
-    protected Hashtable registry = new Hashtable<Object, Object>(11);
+    protected Hashtable registry = new Hashtable<>(11);
 
     private LoggerRepository repository;
 
-    protected LoggerFactory loggerFactory = (LoggerFactory) new DefaultCategoryFactory();
+    protected LoggerFactory loggerFactory = new DefaultCategoryFactory();
 
     static final String CATEGORY_PREFIX = "log4j.category.";
 

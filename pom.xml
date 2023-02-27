@@ -24,7 +24,6 @@
     </properties>
 
     <dependencyManagement>
-        <!-- in your <dependencies> block -->
         <dependencies>
             <dependency>
                 <groupId>org.apache.pulsar</groupId>

@@ -7,8 +7,12 @@ import com.kitchen.sdk.kv.Val;
 import com.kitchen.sdk.kv.ValuesObject;
 import com.kitchen.sdk.log4j.Layout;
 import com.kitchen.sdk.loggers.MetricsLogger;
+import com.kitchen.sdk.mq.pulsar.MetricsPulsar;
+import com.kitchen.sdk.mq.pulsar.MetricsPulsarFactory;
 import com.kitchen.sdk.util.LogFormatter;
+import com.kitchen.sdk.util.StringUtil;
 import com.kitchen.sdk.util.Utils;
+import org.apache.pulsar.client.api.PulsarClientException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,18 +25,50 @@ import java.util.TimerTask;
  * @author wanghongjie
  */
 public class KvInfo extends TimerTask {
-    private static final String KV_LOG_TEMPLATE = ("{`time`:`{}`,`key`:`{}`,`hostname`:`" + Utils.HOST_NAME + "`,`logtype`:`{}`,`v1`:{},`v2`:{},`min`:{},`max`:{}}").replace('`', '"');
+    private static final String KV_LOG_TEMPLATE = ("{`time`:`{}`,`appName`:`{}`,`key`:`{}`,`hostname`:`" + Utils.HOST_NAME + "`,`logtype`:`{}`,`v1`:{},`v2`:{},`min`:{},`max`:{}}").replace('`', '"');
+    private static String appName;
+
+    public KvInfo(String appName) {
+        KvInfo.appName = appName;
+    }
 
     @Override
     public void run() {
         try {
-            writeLog();
+            build();
         } catch (RuntimeException ignore) {
             ignore.printStackTrace();
         }
     }
 
-    private static void writeLog() {
+    /**
+     * 写日志
+     *
+     * @param message 数据信息
+     */
+    private static void writeLog(String message) {
+        if (StringUtil.isNotBlank(message)) {
+            MetricsLogger.KV_LOGGER.info(message);
+        }
+    }
+
+    /**
+     * 发送pulsar
+     *
+     * @param message 数据信息
+     */
+    private static void sendPulsar(String message) {
+        if (StringUtil.isNotBlank(message)) {
+            try {
+                if (MetricsPulsarFactory.getAutoEnable()) {
+                    MetricsPulsar.KV_PULSAR.send(message);
+                }
+            } catch (PulsarClientException ignored) {
+            }
+        }
+    }
+
+    private static void build() {
         String nowTime = Utils.getNowTime();
         StringBuilder logs = new StringBuilder(1024);
         Map<KeysObject, ValuesObject> cached = KvHelpers.cached;
@@ -46,16 +82,15 @@ public class KvInfo extends TimerTask {
             if (ko.getType().isPercent() && v.v1() > v.v2()) {
                 v = new Val(v.v2(), v.v2(), v.min(), v.max());
             }
-            String log = LogFormatter.format(KV_LOG_TEMPLATE, nowTime, ko, ko.getType(), v.v1(), v.v2(), v.min(), v.max());
+            String log = LogFormatter.format(KV_LOG_TEMPLATE, nowTime, KvInfo.appName, ko, ko.getType(), v.v1(), v.v2(), v.min(), v.max());
             if (logs.length() > 0) {
                 logs.append(Layout.LINE_SEP);
             }
             logs.append(log);
             tmpMap.put(ko, new ValuesObject(ko.getType(), v.v1(), v.v2()));
         }
-        if (logs.length() > 0) {
-            MetricsLogger.KV_LOGGER.info(logs.toString());
-        }
+        writeLog(logs.toString());
+        sendPulsar(logs.toString());
         for (KeysObject ko : tmpMap.keySet()) {
             ValuesObject vo = tmpMap.get(ko);
             if (vo == null) {

@@ -1,6 +1,5 @@
 package com.kitchen.sdk.log4j.config;
 
-import com.kitchen.god.sdk.log4j.*;
 import com.kitchen.sdk.log4j.*;
 
 import java.io.PrintWriter;

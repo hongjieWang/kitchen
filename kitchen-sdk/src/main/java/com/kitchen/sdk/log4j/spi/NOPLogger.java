@@ -1,6 +1,5 @@
 package com.kitchen.sdk.log4j.spi;
 
-import com.kitchen.god.sdk.log4j.*;
 import com.kitchen.sdk.log4j.*;
 
 import java.util.Enumeration;
@@ -28,36 +27,46 @@ public final class NOPLogger extends Logger {
 
     void closeNestedAppenders() {
     }
+
     @Override
     public void debug(Object message) {
     }
+
     @Override
     public void debug(Object message, Throwable t) {
     }
+
     @Override
     public void error(Object message) {
     }
+
     @Override
     public void error(Object message, Throwable t) {
     }
+
     @Override
     public void fatal(Object message) {
     }
+
     @Override
     public void fatal(Object message, Throwable t) {
     }
+
     @Override
     public Enumeration getAllAppenders() {
         return (new Vector()).elements();
     }
+
     @Override
     public Appender getAppender(String name) {
         return null;
     }
+
     @Override
     public Level getEffectiveLevel() {
         return Level.OFF;
     }
+
     @Override
     public Priority getChainedPriority() {
         return (Priority) getEffectiveLevel();

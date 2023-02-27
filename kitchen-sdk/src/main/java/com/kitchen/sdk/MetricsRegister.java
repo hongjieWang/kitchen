@@ -14,6 +14,11 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * 监控注册器
+ *
+ * @author wanghongjie
+ */
 public class MetricsRegister {
     private static ScheduledExecutorService schedule = Executors.newScheduledThreadPool(5);
 
@@ -28,8 +33,9 @@ public class MetricsRegister {
     public static volatile Boolean DRUID_MONITOR_INIT = Boolean.FALSE;
 
     public static synchronized void unReisterAll() {
-        for (ScheduledFuture future : futures)
+        for (ScheduledFuture future : futures) {
             future.cancel(true);
+        }
         futures.clear();
         SYSTEM_HEART_INIT = Boolean.FALSE;
         JVM_MONITOR_INIT = Boolean.FALSE;
@@ -43,7 +49,7 @@ public class MetricsRegister {
         }
         try {
             if (!SYSTEM_HEART_INIT) {
-                futures.add(schedule.scheduleAtFixedRate((Runnable) new HeartBeats(key), 1000L, Conts.TIME_HEARTBEATS, TimeUnit.MILLISECONDS));
+                futures.add(schedule.scheduleAtFixedRate(new HeartBeats(key), 1000L, Conts.TIME_HEARTBEATS, TimeUnit.MILLISECONDS));
                 SYSTEM_HEART_INIT = Boolean.TRUE;
             }
         } catch (Throwable t) {
@@ -64,10 +70,10 @@ public class MetricsRegister {
         }
     }
 
-    public static synchronized void registerKVInfo() {
+    public static synchronized void registerKVInfo(String appName) {
         try {
             if (!KV_MONITOR_INIT) {
-                futures.add(schedule.scheduleAtFixedRate(new KvInfo(), 1000L, Conts.KV_PERIOD, TimeUnit.MILLISECONDS));
+                futures.add(schedule.scheduleAtFixedRate(new KvInfo(appName), 1000L, Conts.KV_PERIOD, TimeUnit.MILLISECONDS));
                 KV_MONITOR_INIT = Boolean.TRUE;
             }
         } catch (Throwable t) {

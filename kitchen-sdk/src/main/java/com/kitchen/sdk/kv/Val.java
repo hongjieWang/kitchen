@@ -52,6 +52,6 @@ public class Val {
     }
 
     private List<Long> asList() {
-        return Arrays.asList(new Long[]{Long.valueOf(this.v1), Long.valueOf(this.v2), Long.valueOf(this.min), Long.valueOf(this.max)});
+        return Arrays.asList(this.v1, this.v2, this.min, this.max);
     }
 }

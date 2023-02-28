@@ -189,6 +189,11 @@
                 <version>${kitchen.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.kitchen.god</groupId>
+                <artifactId>kitchen-sdk</artifactId>
+                <version>${kitchen.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

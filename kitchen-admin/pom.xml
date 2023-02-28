@@ -61,6 +61,12 @@
             <artifactId>kitchen-generator</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.kitchen.god</groupId>
+            <artifactId>kitchen-sdk</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

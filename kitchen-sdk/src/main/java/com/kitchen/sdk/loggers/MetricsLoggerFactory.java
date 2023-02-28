@@ -9,7 +9,6 @@ import com.kitchen.sdk.util.StringUtil;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 import java.util.Properties;
 
 import static java.lang.Boolean.TRUE;
@@ -82,7 +81,7 @@ public class MetricsLoggerFactory {
 
     private static void doInit(boolean start) {
         Properties properties = new Properties();
-        InputStream inputStream = new BufferedInputStream(Objects.requireNonNull(MetricsLoggerFactory.class.getClassLoader().getResourceAsStream(METRICS_UMP_PROPERTIES)));
+        InputStream inputStream = new BufferedInputStream(MetricsLoggerFactory.class.getClassLoader().getResourceAsStream(METRICS_UMP_PROPERTIES));
         try {
             properties.load(inputStream);
             APP_NAME = properties.getProperty(P_APP_NAME, APP_NAME);

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MetricsKvMapper">
+
+    <resultMap type="MetricsKv" id="MetricsKvResult">
+        <result property="id" column="id"/>
+        <result property="time" column="time"/>
+        <result property="appName" column="app_name"/>
+        <result property="key" column="key"/>
+        <result property="hostName" column="host_name"/>
+        <result property="logType" column="log_type"/>
+        <result property="v1" column="v1"/>
+        <result property="v2" column="v2"/>
+        <result property="min" column="min"/>
+        <result property="max" column="max"/>
+    </resultMap>
+
+    <sql id="selectMetricsKvVo">
+        select id, time, app_name, key, host_name, log_type, v1, v2, min, max
+        from metrics_kv
+    </sql>
+
+    <select id="selectMetricsKvList" parameterType="MetricsKv" resultMap="MetricsKvResult">
+        <include refid="selectMetricsKvVo"/>
+        <where>
+            <if test="time != null ">and time = #{time}</if>
+            <if test="appName != null  and appName != ''">and app_name like concat('%', #{appName}, '%')</if>
+            <if test="key != null  and key != ''">and key = #{key}</if>
+            <if test="hostName != null  and hostName != ''">and host_name like concat('%', #{hostName}, '%')</if>
+            <if test="logType != null  and logType != ''">and log_type = #{logType}</if>
+            <if test="v1 != null  and v1 != ''">and v1 = #{v1}</if>
+            <if test="v2 != null  and v2 != ''">and v2 = #{v2}</if>
+            <if test="min != null  and min != ''">and min = #{min}</if>
+            <if test="max != null  and max != ''">and max = #{max}</if>
+        </where>
+    </select>
+
+    <select id="selectMetricsKvById" parameterType="Long" resultMap="MetricsKvResult">
+        <include refid="selectMetricsKvVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMetricsKv" parameterType="MetricsKv" useGeneratedKeys="true" keyProperty="id">
+        insert into metrics_kv
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="time != null">time,</if>
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="key != null and key != ''">key,</if>
+            <if test="hostName != null">host_name,</if>
+            <if test="logType != null and logType != ''">log_type,</if>
+            <if test="v1 != null">v1,</if>
+            <if test="v2 != null">v2,</if>
+            <if test="min != null">min,</if>
+            <if test="max != null">max,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="time != null">#{time},</if>
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="key != null and key != ''">#{key},</if>
+            <if test="hostName != null">#{hostName},</if>
+            <if test="logType != null and logType != ''">#{logType},</if>
+            <if test="v1 != null">#{v1},</if>
+            <if test="v2 != null">#{v2},</if>
+            <if test="min != null">#{min},</if>
+            <if test="max != null">#{max},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMetricsKv" parameterType="MetricsKv">
+        update metrics_kv
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="time != null">time = #{time},</if>
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="key != null and key != ''">key = #{key},</if>
+            <if test="hostName != null">host_name = #{hostName},</if>
+            <if test="logType != null and logType != ''">log_type = #{logType},</if>
+            <if test="v1 != null">v1 = #{v1},</if>
+            <if test="v2 != null">v2 = #{v2},</if>
+            <if test="min != null">min = #{min},</if>
+            <if test="max != null">max = #{max},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMetricsKvById" parameterType="Long">
+        delete
+        from metrics_kv
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteMetricsKvByIds" parameterType="String">
+        delete from metrics_kv where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

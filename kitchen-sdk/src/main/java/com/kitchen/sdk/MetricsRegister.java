@@ -63,7 +63,7 @@ public class MetricsRegister {
         try {
             if (!JVM_MONITOR_INIT) {
                 futures.add(schedule.scheduleAtFixedRate(new JvmRuntimeInfo(key), 1000L, Conts.JVMTIME_R, TimeUnit.MILLISECONDS));
-                futures.add(schedule.scheduleAtFixedRate(new JvmEnvironmentInfo(key), 0L, Conts.JVMTIME_E, TimeUnit.MILLISECONDS));
+                futures.add(schedule.scheduleAtFixedRate(new JvmEnvironmentInfo(key), 0, Conts.JVMTIME_E, TimeUnit.MILLISECONDS));
                 JVM_MONITOR_INIT = Boolean.TRUE;
             }
         } catch (Throwable t) {

@@ -1,9 +1,9 @@
 package com.kitchen.sdk.jvm;
 
+import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -25,8 +25,7 @@ public class LocalJvmInfoPicker implements JvmInfoPicker {
 
     private LocalJvmInfoPicker() {
         List<GarbageCollectorMXBean> gcList = ManagementFactory.getGarbageCollectorMXBeans();
-        if (gcList == null || gcList.isEmpty())
-            return;
+        if (gcList == null || gcList.isEmpty()) return;
         if (gcList.size() == 1) {
             this.youngGC = gcList.get(0);
         } else {
@@ -48,26 +47,22 @@ public class LocalJvmInfoPicker implements JvmInfoPicker {
     }
 
     public static long getYoungGCTime() {
-        if (instance.youngGC != null)
-            return instance.youngGC.getCollectionTime();
+        if (instance.youngGC != null) return instance.youngGC.getCollectionTime();
         return 0L;
     }
 
     public static long getYoungGCCount() {
-        if (instance.youngGC != null)
-            return instance.youngGC.getCollectionCount();
+        if (instance.youngGC != null) return instance.youngGC.getCollectionCount();
         return 0L;
     }
 
     public static long getFullGCTime() {
-        if (instance.fullGC != null)
-            return instance.fullGC.getCollectionTime();
+        if (instance.fullGC != null) return instance.fullGC.getCollectionTime();
         return 0L;
     }
 
     public static long getFullGCCount() {
-        if (instance.fullGC != null)
-            return instance.fullGC.getCollectionCount();
+        if (instance.fullGC != null) return instance.fullGC.getCollectionCount();
         return 0L;
     }
 
@@ -160,34 +155,31 @@ public class LocalJvmInfoPicker implements JvmInfoPicker {
     public String getInputArguments() {
         List<String> argList = ManagementFactory.getRuntimeMXBean().getInputArguments();
         StringBuilder sb = new StringBuilder();
-        if (argList != null && !argList.isEmpty())
-            for (String arg : argList) {
-                if (arg == null || arg.trim().length() == 0)
-                    continue;
-                if (sb.length() > 0)
-                    sb.append(" ");
-                arg = arg.replaceAll("\\\\", "/");
-                sb.append(arg);
-            }
+        if (argList != null && !argList.isEmpty()) for (String arg : argList) {
+            if (arg == null || arg.trim().length() == 0) continue;
+            if (sb.length() > 0) sb.append(" ");
+            arg = arg.replaceAll("\\\\", "/");
+            sb.append(arg);
+        }
         return sb.toString();
     }
 
     public long getTotalPhysicalMemorySize() {
-        OperatingSystemMXBean osbean = ManagementFactory.getOperatingSystemMXBean();
-//        return osbean.getTotalPhysicalMemorySize();
-        return 0L;
+        OperatingSystemMXBean osbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        return osbean.getTotalPhysicalMemorySize();
+//        return 0L;
     }
 
     public long getCommittedVirtualMemorySize() {
-        OperatingSystemMXBean osbean = ManagementFactory.getOperatingSystemMXBean();
-//        return osbean.getCommittedVirtualMemorySize();
-        return 0L;
+        OperatingSystemMXBean osbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        return osbean.getCommittedVirtualMemorySize();
+//        return 0L;
     }
 
     public long getTotalSwapSpaceSize() {
-        OperatingSystemMXBean osbean = ManagementFactory.getOperatingSystemMXBean();
-//        return osbean.getTotalSwapSpaceSize();
-        return 0L;
+        OperatingSystemMXBean osbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        return osbean.getTotalSwapSpaceSize();
+//        return 0L;
     }
 
     public long getLoadedClassCount() {
@@ -285,16 +277,14 @@ public class LocalJvmInfoPicker implements JvmInfoPicker {
     }
 
     public String getHostName() {
-        if (System.getenv("COMPUTERNAME") != null)
-            return System.getenv("COMPUTERNAME");
+        if (System.getenv("COMPUTERNAME") != null) return System.getenv("COMPUTERNAME");
         try {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException uhe) {
             String host = uhe.getMessage();
             if (host != null) {
                 int colon = host.indexOf(':');
-                if (colon > 0)
-                    return host.substring(0, colon);
+                if (colon > 0) return host.substring(0, colon);
             }
             return "UnknownHost";
         }
@@ -307,16 +297,14 @@ public class LocalJvmInfoPicker implements JvmInfoPicker {
     }
 
     public float getCpu() {
-        OperatingSystemMXBean osbean = ManagementFactory.getOperatingSystemMXBean();
+        OperatingSystemMXBean osbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         long uptimeNow = ManagementFactory.getRuntimeMXBean().getUptime();
-//        long processCpuTimeNow = osbean.getProcessCpuTime();
-        long processCpuTimeNow = System.currentTimeMillis();
+        long processCpuTimeNow = osbean.getProcessCpuTime();
         float cpu = 0.0F;
         if (this.uptime > 0L && this.processCpuTime > 0L) {
             long l2 = uptimeNow - this.uptime;
             long l1 = processCpuTimeNow - this.processCpuTime;
-            if (l2 > 0L)
-                cpu = Math.min(99.0F, (float) l1 / (float) l2 * 10000.0F * osbean.getAvailableProcessors());
+            if (l2 > 0L) cpu = Math.min(99.0F, (float) l1 / (float) l2 * 10000.0F * osbean.getAvailableProcessors());
         }
         this.uptime = uptimeNow;
         this.processCpuTime = processCpuTimeNow;

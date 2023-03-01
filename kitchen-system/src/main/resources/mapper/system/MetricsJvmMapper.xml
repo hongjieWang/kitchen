@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MetricsJvmMapper">
+
+    <resultMap type="MetricsJvm" id="MetricsJvmResult">
+        <result property="id" column="id"/>
+        <result property="logType" column="log_type"/>
+        <result property="appName" column="app_name"/>
+        <result property="hostName" column="host_name"/>
+        <result property="time" column="time"/>
+        <result property="dataType" column="data_type"/>
+        <result property="ptc" column="ptc"/>
+        <result property="tc" column="tc"/>
+        <result property="dtc" column="dtc"/>
+        <result property="lcc" column="lcc"/>
+        <result property="tlcc" column="tlcc"/>
+        <result property="ucc" column="ucc"/>
+        <result property="nhmu" column="nhmu"/>
+        <result property="hmu" column="hmu"/>
+        <result property="inhmu" column="inhmu"/>
+        <result property="ihmu" column="ihmu"/>
+        <result property="cnhmu" column="cnhmu"/>
+        <result property="chmu" column="chmu"/>
+        <result property="mnhmu" column="mnhmu"/>
+        <result property="mhmu" column="mhmu"/>
+        <result property="fgcc" column="fgcc"/>
+        <result property="ygcc" column="ygcc"/>
+        <result property="fgcd" column="fgcd"/>
+        <result property="ygcd" column="ygcd"/>
+        <result property="fgct" column="fgct"/>
+        <result property="ygct" column="ygct"/>
+        <result property="fgcs" column="fgcs"/>
+        <result property="ygcs" column="ygcs"/>
+        <result property="fgce" column="fgce"/>
+        <result property="ygce" column="ygce"/>
+        <result property="cpu" column="cpu"/>
+    </resultMap>
+
+    <sql id="selectMetricsJvmVo">
+        select id,
+               log_type,
+               app_name,
+               host_name, time, data_type, ptc, tc, dtc, lcc, tlcc, ucc, nhmu, hmu, inhmu, ihmu, cnhmu, chmu, mnhmu, mhmu, fgcc, ygcc, fgcd, ygcd, fgct, ygct, fgcs, ygcs, fgce, ygce, cpu
+        from metrics_jvm
+    </sql>
+
+    <select id="selectMetricsJvmList" parameterType="MetricsJvm" resultMap="MetricsJvmResult">
+        <include refid="selectMetricsJvmVo"/>
+        <where>
+            <if test="logType != null  and logType != ''">and log_type = #{logType}</if>
+            <if test="appName != null  and appName != ''">and app_name like concat('%', #{appName}, '%')</if>
+            <if test="hostName != null  and hostName != ''">and host_name like concat('%', #{hostName}, '%')</if>
+            <if test="time != null ">and time = #{time}</if>
+            <if test="dataType != null ">and data_type = #{dataType}</if>
+            <if test="ptc != null ">and ptc = #{ptc}</if>
+            <if test="tc != null ">and tc = #{tc}</if>
+            <if test="dtc != null ">and dtc = #{dtc}</if>
+            <if test="lcc != null ">and lcc = #{lcc}</if>
+            <if test="tlcc != null ">and tlcc = #{tlcc}</if>
+            <if test="ucc != null ">and ucc = #{ucc}</if>
+            <if test="nhmu != null ">and nhmu = #{nhmu}</if>
+            <if test="hmu != null ">and hmu = #{hmu}</if>
+            <if test="inhmu != null ">and inhmu = #{inhmu}</if>
+            <if test="ihmu != null ">and ihmu = #{ihmu}</if>
+            <if test="cnhmu != null ">and cnhmu = #{cnhmu}</if>
+            <if test="chmu != null ">and chmu = #{chmu}</if>
+            <if test="mnhmu != null ">and mnhmu = #{mnhmu}</if>
+            <if test="mhmu != null ">and mhmu = #{mhmu}</if>
+            <if test="fgcc != null ">and fgcc = #{fgcc}</if>
+            <if test="ygcc != null ">and ygcc = #{ygcc}</if>
+            <if test="fgcd != null ">and fgcd = #{fgcd}</if>
+            <if test="ygcd != null ">and ygcd = #{ygcd}</if>
+            <if test="fgct != null ">and fgct = #{fgct}</if>
+            <if test="ygct != null ">and ygct = #{ygct}</if>
+            <if test="fgcs != null ">and fgcs = #{fgcs}</if>
+            <if test="ygcs != null ">and ygcs = #{ygcs}</if>
+            <if test="fgce != null ">and fgce = #{fgce}</if>
+            <if test="ygce != null ">and ygce = #{ygce}</if>
+            <if test="cpu != null ">and cpu = #{cpu}</if>
+        </where>
+    </select>
+
+    <select id="selectMetricsJvmById" parameterType="Long" resultMap="MetricsJvmResult">
+        <include refid="selectMetricsJvmVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMetricsJvm" parameterType="MetricsJvm">
+        insert into metrics_jvm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="logType != null">log_type,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="hostName != null">host_name,</if>
+            <if test="time != null">time,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="ptc != null">ptc,</if>
+            <if test="tc != null">tc,</if>
+            <if test="dtc != null">dtc,</if>
+            <if test="lcc != null">lcc,</if>
+            <if test="tlcc != null">tlcc,</if>
+            <if test="ucc != null">ucc,</if>
+            <if test="nhmu != null">nhmu,</if>
+            <if test="hmu != null">hmu,</if>
+            <if test="inhmu != null">inhmu,</if>
+            <if test="ihmu != null">ihmu,</if>
+            <if test="cnhmu != null">cnhmu,</if>
+            <if test="chmu != null">chmu,</if>
+            <if test="mnhmu != null">mnhmu,</if>
+            <if test="mhmu != null">mhmu,</if>
+            <if test="fgcc != null">fgcc,</if>
+            <if test="ygcc != null">ygcc,</if>
+            <if test="fgcd != null">fgcd,</if>
+            <if test="ygcd != null">ygcd,</if>
+            <if test="fgct != null">fgct,</if>
+            <if test="ygct != null">ygct,</if>
+            <if test="fgcs != null">fgcs,</if>
+            <if test="ygcs != null">ygcs,</if>
+            <if test="fgce != null">fgce,</if>
+            <if test="ygce != null">ygce,</if>
+            <if test="cpu != null">cpu,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="logType != null">#{logType},</if>
+            <if test="appName != null">#{appName},</if>
+            <if test="hostName != null">#{hostName},</if>
+            <if test="time != null">#{time},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="ptc != null">#{ptc},</if>
+            <if test="tc != null">#{tc},</if>
+            <if test="dtc != null">#{dtc},</if>
+            <if test="lcc != null">#{lcc},</if>
+            <if test="tlcc != null">#{tlcc},</if>
+            <if test="ucc != null">#{ucc},</if>
+            <if test="nhmu != null">#{nhmu},</if>
+            <if test="hmu != null">#{hmu},</if>
+            <if test="inhmu != null">#{inhmu},</if>
+            <if test="ihmu != null">#{ihmu},</if>
+            <if test="cnhmu != null">#{cnhmu},</if>
+            <if test="chmu != null">#{chmu},</if>
+            <if test="mnhmu != null">#{mnhmu},</if>
+            <if test="mhmu != null">#{mhmu},</if>
+            <if test="fgcc != null">#{fgcc},</if>
+            <if test="ygcc != null">#{ygcc},</if>
+            <if test="fgcd != null">#{fgcd},</if>
+            <if test="ygcd != null">#{ygcd},</if>
+            <if test="fgct != null">#{fgct},</if>
+            <if test="ygct != null">#{ygct},</if>
+            <if test="fgcs != null">#{fgcs},</if>
+            <if test="ygcs != null">#{ygcs},</if>
+            <if test="fgce != null">#{fgce},</if>
+            <if test="ygce != null">#{ygce},</if>
+            <if test="cpu != null">#{cpu},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMetricsJvm" parameterType="MetricsJvm">
+        update metrics_jvm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logType != null">log_type = #{logType},</if>
+            <if test="appName != null">app_name = #{appName},</if>
+            <if test="hostName != null">host_name = #{hostName},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="ptc != null">ptc = #{ptc},</if>
+            <if test="tc != null">tc = #{tc},</if>
+            <if test="dtc != null">dtc = #{dtc},</if>
+            <if test="lcc != null">lcc = #{lcc},</if>
+            <if test="tlcc != null">tlcc = #{tlcc},</if>
+            <if test="ucc != null">ucc = #{ucc},</if>
+            <if test="nhmu != null">nhmu = #{nhmu},</if>
+            <if test="hmu != null">hmu = #{hmu},</if>
+            <if test="inhmu != null">inhmu = #{inhmu},</if>
+            <if test="ihmu != null">ihmu = #{ihmu},</if>
+            <if test="cnhmu != null">cnhmu = #{cnhmu},</if>
+            <if test="chmu != null">chmu = #{chmu},</if>
+            <if test="mnhmu != null">mnhmu = #{mnhmu},</if>
+            <if test="mhmu != null">mhmu = #{mhmu},</if>
+            <if test="fgcc != null">fgcc = #{fgcc},</if>
+            <if test="ygcc != null">ygcc = #{ygcc},</if>
+            <if test="fgcd != null">fgcd = #{fgcd},</if>
+            <if test="ygcd != null">ygcd = #{ygcd},</if>
+            <if test="fgct != null">fgct = #{fgct},</if>
+            <if test="ygct != null">ygct = #{ygct},</if>
+            <if test="fgcs != null">fgcs = #{fgcs},</if>
+            <if test="ygcs != null">ygcs = #{ygcs},</if>
+            <if test="fgce != null">fgce = #{fgce},</if>
+            <if test="ygce != null">ygce = #{ygce},</if>
+            <if test="cpu != null">cpu = #{cpu},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMetricsJvmById" parameterType="Long">
+        delete
+        from metrics_jvm
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteMetricsJvmByIds" parameterType="String">
+        delete from metrics_jvm where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

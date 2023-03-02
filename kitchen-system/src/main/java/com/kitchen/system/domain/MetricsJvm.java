@@ -33,7 +33,10 @@ public class MetricsJvm extends BaseEntity {
      */
     @Excel(name = "应用名称")
     private String appName;
-
+    /**
+     * 采集环境
+     */
+    private String environment;
     /**
      * 主机名称
      */
@@ -449,6 +452,14 @@ public class MetricsJvm extends BaseEntity {
 
     public Long getCpu() {
         return cpu;
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
     }
 
     @Override

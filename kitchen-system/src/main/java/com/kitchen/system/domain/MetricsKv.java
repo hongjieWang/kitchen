@@ -14,6 +14,7 @@ import com.kitchen.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2023-03-01
  */
+
 public class MetricsKv extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +34,10 @@ public class MetricsKv extends BaseEntity {
      */
     @Excel(name = "应用名称")
     private String appName;
-
+    /**
+     * 采集环境
+     */
+    private String environment;
     /**
      * 埋点key
      */
@@ -154,6 +158,14 @@ public class MetricsKv extends BaseEntity {
 
     public String getMax() {
         return max;
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
     }
 
     @Override

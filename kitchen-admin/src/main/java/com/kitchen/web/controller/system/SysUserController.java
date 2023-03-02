@@ -1,23 +1,5 @@
 package com.kitchen.web.controller.system;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
-import com.kitchen.sdk.MetricsClient;
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.kitchen.common.annotation.Log;
 import com.kitchen.common.core.controller.BaseController;
 import com.kitchen.common.core.domain.AjaxResult;
@@ -29,10 +11,21 @@ import com.kitchen.common.enums.BusinessType;
 import com.kitchen.common.utils.SecurityUtils;
 import com.kitchen.common.utils.StringUtils;
 import com.kitchen.common.utils.poi.ExcelUtil;
+import com.kitchen.sdk.MetricsClient;
 import com.kitchen.system.service.ISysDeptService;
 import com.kitchen.system.service.ISysPostService;
 import com.kitchen.system.service.ISysRoleService;
 import com.kitchen.system.service.ISysUserService;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -60,7 +53,7 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user) {
-        MetricsClient metricsClient = MetricsClient.newInstance("demo", "test", "test1");
+        MetricsClient metricsClient = MetricsClient.newInstance("demo", "test", "test1", "dev");
         startPage();
         List<SysUser> list = userService.selectUserList(user);
         metricsClient.qps();

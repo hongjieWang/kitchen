@@ -27,4 +27,14 @@ public class QPS extends AbstractMetrics {
     public QPS(String key1, String key2, String key3) {
         super(key1, key2, key3);
     }
+
+    /**
+     * @param key1
+     * @param key2
+     * @param key3
+     * @param environment 运行环境 生产、测试
+     */
+    public QPS(String key1, String key2, String key3, String environment) {
+        super(key1, key2, key3, environment);
+    }
 }

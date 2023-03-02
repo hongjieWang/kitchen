@@ -1,6 +1,10 @@
 package com.kitchen.sdk;
 
 public class Metrics {
+    public static Cur Cur(String key1, String key2, String key3, String environment) {
+        return new Cur(key1, key2, key3, environment);
+    }
+
     public static Cur Cur(String key1, String key2, String key3) {
         return new Cur(key1, key2, key3);
     }
@@ -11,6 +15,10 @@ public class Metrics {
 
     public static Cur Cur(String key1) {
         return Cur(key1, "", "");
+    }
+
+    public static RT RT(String key1, String key2, String key3, String environment) {
+        return new RT(key1, key2, key3);
     }
 
     public static RT RT(String key1, String key2, String key3) {
@@ -25,6 +33,10 @@ public class Metrics {
         return RT(key1, "", "");
     }
 
+    public static QPS QPS(String key1, String key2, String key3, String environment) {
+        return new QPS(key1, key2, key3, environment);
+    }
+
     public static QPS QPS(String key1, String key2, String key3) {
         return new QPS(key1, key2, key3);
     }
@@ -35,6 +47,10 @@ public class Metrics {
 
     public static QPS QPS(String key1) {
         return QPS(key1, "", "");
+    }
+
+    public static FailRate FR(String key1, String key2, String key3, String environment) {
+        return new FailRate(key1, key2, key3, environment);
     }
 
     public static FailRate FR(String key1, String key2, String key3) {
@@ -49,6 +65,10 @@ public class Metrics {
         return FR(key1, "", "");
     }
 
+    public static SuccessRate SR(String key1, String key2, String key3, String environment) {
+        return new SuccessRate(key1, key2, key3, environment);
+    }
+
     public static SuccessRate SR(String key1, String key2, String key3) {
         return new SuccessRate(key1, key2, key3);
     }
@@ -61,6 +81,10 @@ public class Metrics {
         return SR(key1, "", "");
     }
 
+    public static Hit HIT(String key1, String key2, String key3, String environment) {
+        return new Hit(key1, key2, key3, environment);
+    }
+
     public static Hit HIT(String key1, String key2, String key3) {
         return new Hit(key1, key2, key3);
     }
@@ -71,6 +95,10 @@ public class Metrics {
 
     public static Hit HIT(String key1) {
         return HIT(key1, "", "");
+    }
+
+    public static Common CM(String key1, String key2, String key3, String environment) {
+        return new Common(key1, key2, key3, environment);
     }
 
     public static Common CM(String key1, String key2, String key3) {

@@ -9,6 +9,8 @@ public class MetricsClient {
 
     private Hit hit;
 
+    private String ev;
+
     private MetricsClient(SuccessRate sr, RT rt, QPS qps, Hit hit) {
         this.sr = sr;
         this.rt = rt;
@@ -23,8 +25,19 @@ public class MetricsClient {
         this.hit = Metrics.HIT(k1, k2, k3);
     }
 
+    private MetricsClient(String k1, String k2, String k3, String environment) {
+        this.qps = Metrics.QPS(k1, k2, k3, environment);
+        this.rt = Metrics.RT(k1, k2, k3, environment);
+        this.sr = Metrics.SR(k1, k2, k3, environment);
+        this.hit = Metrics.HIT(k1, k2, k3, environment);
+    }
+
     public static MetricsClient newInstance(String k1, String k2, String k3) {
         return new MetricsClient(k1, k2, k3);
+    }
+
+    public static MetricsClient newInstance(String k1, String k2, String k3, String environment) {
+        return new MetricsClient(k1, k2, k3, environment);
     }
 
     public static MetricsClient newInstance(String k1, String k2) {
@@ -51,7 +64,7 @@ public class MetricsClient {
     }
 
     public MetricsClient rt(Long starTime) {
-        this.rt.record(starTime.longValue());
+        this.rt.record(starTime);
         return this;
     }
 

@@ -14,14 +14,20 @@ public class KeysObject {
     private final String key3;
 
     private final Type type;
+    /**
+     * 环境
+     */
+    private final String environment;
 
-    public KeysObject(String key1, String key2, String key3, Type type) {
+    public KeysObject(String key1, String key2, String key3, Type type, String environment) {
         this.key1 = key1;
         this.key2 = key2;
         this.key3 = key3;
         this.type = type;
+        this.environment = environment;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -30,17 +36,19 @@ public class KeysObject {
         return asList().equals(((KeysObject) o).asList());
     }
 
+    @Override
     public int hashCode() {
         return asList().hashCode();
     }
 
     private List<Object> asList() {
-        return Arrays.asList(new Object[]{this.key1, this.key2, this.key3, this.type});
+        return Arrays.asList(new Object[]{this.key1, this.key2, this.key3, this.type, this.environment});
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (String key : Arrays.<String>asList(new String[]{this.key1, this.key2, this.key3})) {
+        for (String key : Arrays.asList(this.key1, this.key2, this.key3)) {
             if (StringUtil.isNotBlank(key)) {
                 if (sb.length() > 0)
                     sb.append("#");
@@ -64,5 +72,9 @@ public class KeysObject {
 
     public Type getType() {
         return this.type;
+    }
+
+    public String getEnvironment() {
+        return this.environment;
     }
 }

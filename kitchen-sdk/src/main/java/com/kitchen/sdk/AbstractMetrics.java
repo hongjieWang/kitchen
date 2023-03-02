@@ -16,8 +16,12 @@ public abstract class AbstractMetrics {
         MetricsLoggerFactory.init();
     }
 
+    protected AbstractMetrics(String key1, String key2, String key3, String environment) {
+        this.keysObject = new KeysObject(normal(key1), normal(key2), normal(key3), getMonitorType(), environment);
+    }
+
     protected AbstractMetrics(String key1, String key2, String key3) {
-        this.keysObject = new KeysObject(normal(key1), normal(key2), normal(key3), getMonitorType());
+        this.keysObject = new KeysObject(normal(key1), normal(key2), normal(key3), getMonitorType(), "default");
     }
 
     protected void updateValues(long v1, long v2) {

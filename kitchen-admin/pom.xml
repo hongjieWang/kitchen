@@ -66,6 +66,10 @@
             <groupId>com.kitchen</groupId>
             <artifactId>kitchen-sdk</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kitchen</groupId>
+            <artifactId>kitchen-system</artifactId>
+        </dependency>
 
     </dependencies>
 

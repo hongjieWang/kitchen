@@ -70,6 +70,12 @@ public class MetricsRegister {
         }
     }
 
+
+    /**
+     * 注册KV模式
+     *
+     * @param appName 应用名称
+     */
     public static synchronized void registerKVInfo(String appName) {
         try {
             if (!KV_MONITOR_INIT) {

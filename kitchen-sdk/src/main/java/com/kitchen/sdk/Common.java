@@ -7,6 +7,10 @@ public class Common extends AbstractMetrics {
         super(key1, key2, key3);
     }
 
+    public Common(String key1, String key2, String key3, String ev) {
+        super(key1, key2, key3, ev);
+    }
+
     @Override
     public Type getMonitorType() {
         return Type.DEFAULT;

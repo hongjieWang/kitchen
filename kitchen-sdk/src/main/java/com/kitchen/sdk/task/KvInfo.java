@@ -25,8 +25,11 @@ import java.util.TimerTask;
  * @author wanghongjie
  */
 public class KvInfo extends TimerTask {
-    private static final String KV_LOG_TEMPLATE = ("{`time`:`{}`,`appName`:`{}`,`key`:`{}`,`hostname`:`" + Utils.HOST_NAME + "`,`logtype`:`{}`,`v1`:{},`v2`:{},`min`:{},`max`:{}}").replace('`', '"');
+    private static final String KV_LOG_TEMPLATE = ("{`time`:`{}`,`appName`:`{}`,`environment`:`{}`,`key`:`{}`,`hostname`:`" + Utils.HOST_NAME + "`,`logtype`:`{}`,`v1`:{},`v2`:{},`min`:{},`max`:{}}").replace('`', '"');
     private static String appName;
+    /**
+     * 运行环境
+     */
 
     public KvInfo(String appName) {
         KvInfo.appName = appName;
@@ -37,7 +40,6 @@ public class KvInfo extends TimerTask {
         try {
             build();
         } catch (RuntimeException ignore) {
-            ignore.printStackTrace();
         }
     }
 
@@ -82,7 +84,7 @@ public class KvInfo extends TimerTask {
             if (ko.getType().isPercent() && v.v1() > v.v2()) {
                 v = new Val(v.v2(), v.v2(), v.min(), v.max());
             }
-            String log = LogFormatter.format(KV_LOG_TEMPLATE, nowTime, KvInfo.appName, ko, ko.getType(), v.v1(), v.v2(), v.min(), v.max());
+            String log = LogFormatter.format(KV_LOG_TEMPLATE, nowTime, KvInfo.appName, ko.getEnvironment(), ko, ko.getType(), v.v1(), v.v2(), v.min(), v.max());
             if (logs.length() > 0) {
                 logs.append(Layout.LINE_SEP);
             }

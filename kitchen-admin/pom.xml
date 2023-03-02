@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>kitchen</artifactId>
-        <groupId>com.kitchen.god</groupId>
+        <groupId>com.kitchen</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -45,25 +45,25 @@
 
         <!-- 核心模块-->
         <dependency>
-            <groupId>com.kitchen.god</groupId>
+            <groupId>com.kitchen</groupId>
             <artifactId>kitchen-framework</artifactId>
         </dependency>
 
         <!-- 定时任务-->
         <dependency>
-            <groupId>com.kitchen.god</groupId>
+            <groupId>com.kitchen</groupId>
             <artifactId>kitchen-quartz</artifactId>
         </dependency>
 
         <!-- 代码生成-->
         <dependency>
-            <groupId>com.kitchen.god</groupId>
+            <groupId>com.kitchen</groupId>
             <artifactId>kitchen-generator</artifactId>
         </dependency>
 
 
         <dependency>
-            <groupId>com.kitchen.god</groupId>
+            <groupId>com.kitchen</groupId>
             <artifactId>kitchen-sdk</artifactId>
         </dependency>
 

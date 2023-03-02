@@ -5,7 +5,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>kitchen-sdk</module>
-        <module>kitchen-demo</module>
         <module>kitchen-common</module>
         <module>kitchen-framework</module>
         <module>kitchen-admin</module>
@@ -19,7 +18,7 @@
         <version>2.5.14</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kitchen.god</groupId>
+    <groupId>com.kitchen</groupId>
     <artifactId>kitchen</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>kitchen</name>
@@ -156,41 +155,41 @@
 
             <!-- 定时任务-->
             <dependency>
-                <groupId>com.kitchen.god</groupId>
+                <groupId>com.kitchen</groupId>
                 <artifactId>kitchen-quartz</artifactId>
                 <version>${kitchen.version}</version>
             </dependency>
 
             <!-- 代码生成-->
             <dependency>
-                <groupId>com.kitchen.god</groupId>
+                <groupId>com.kitchen</groupId>
                 <artifactId>kitchen-generator</artifactId>
                 <version>${kitchen.version}</version>
             </dependency>
 
             <!-- 核心模块-->
             <dependency>
-                <groupId>com.kitchen.god</groupId>
+                <groupId>com.kitchen</groupId>
                 <artifactId>kitchen-framework</artifactId>
                 <version>${kitchen.version}</version>
             </dependency>
 
             <!-- 系统模块-->
             <dependency>
-                <groupId>com.kitchen.god</groupId>
+                <groupId>com.kitchen</groupId>
                 <artifactId>kitchen-system</artifactId>
                 <version>${kitchen.version}</version>
             </dependency>
 
             <!-- 通用工具-->
             <dependency>
-                <groupId>com.kitchen.god</groupId>
+                <groupId>com.kitchen</groupId>
                 <artifactId>kitchen-common</artifactId>
                 <version>${kitchen.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.kitchen.god</groupId>
+                <groupId>com.kitchen</groupId>
                 <artifactId>kitchen-sdk</artifactId>
                 <version>${kitchen.version}</version>
             </dependency>

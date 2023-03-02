@@ -11,6 +11,7 @@ import com.kitchen.common.enums.BusinessType;
 import com.kitchen.common.utils.SecurityUtils;
 import com.kitchen.common.utils.StringUtils;
 import com.kitchen.common.utils.poi.ExcelUtil;
+import com.kitchen.common.utils.spring.SpringUtils;
 import com.kitchen.sdk.MetricsClient;
 import com.kitchen.system.service.ISysDeptService;
 import com.kitchen.system.service.ISysPostService;
@@ -53,10 +54,11 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user) {
-        MetricsClient metricsClient = MetricsClient.newInstance("demo", "test", "test1", "dev");
+        MetricsClient metricsClient = MetricsClient.newInstance("demo", "test", "test1", SpringUtils.getActiveProfile());
+        System.getenv();
         startPage();
         List<SysUser> list = userService.selectUserList(user);
-        metricsClient.qps();
+        metricsClient.qps().rt().sr_incrSuccess().sr_incrTotal();
         return getDataTable(list);
     }
 

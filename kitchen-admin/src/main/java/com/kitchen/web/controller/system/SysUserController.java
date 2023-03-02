@@ -12,7 +12,7 @@ import com.kitchen.common.utils.SecurityUtils;
 import com.kitchen.common.utils.StringUtils;
 import com.kitchen.common.utils.poi.ExcelUtil;
 import com.kitchen.common.utils.spring.SpringUtils;
-import com.kitchen.sdk.MetricsClient;
+import com.kitchen.sdk.metrics.MetricsClient;
 import com.kitchen.system.service.ISysDeptService;
 import com.kitchen.system.service.ISysPostService;
 import com.kitchen.system.service.ISysRoleService;

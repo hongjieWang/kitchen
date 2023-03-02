@@ -1,8 +1,8 @@
 package com.kitchen.sdk.mq.pulsar;
 
-import com.kitchen.sdk.MetricsRegister;
-import com.kitchen.sdk.log4j.helpers.LogLog;
-import com.kitchen.sdk.loggers.MetricsLoggerFactory;
+import com.kitchen.sdk.metrics.MetricsRegister;
+import com.kitchen.sdk.metrics.log4j.helpers.LogLog;
+import com.kitchen.sdk.metrics.loggers.MetricsLoggerFactory;
 import org.apache.pulsar.client.api.AuthenticationFactory;
 import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.PulsarClient;
@@ -14,8 +14,8 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
-import static com.kitchen.sdk.loggers.MetricsLoggerFactory.P_HB_ENABLE;
-import static com.kitchen.sdk.loggers.MetricsLoggerFactory.P_JVM_ENABLE;
+import static com.kitchen.sdk.metrics.loggers.MetricsLoggerFactory.P_HB_ENABLE;
+import static com.kitchen.sdk.metrics.loggers.MetricsLoggerFactory.P_JVM_ENABLE;
 import static java.lang.Boolean.TRUE;
 
 /**

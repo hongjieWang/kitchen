@@ -1,4 +1,4 @@
-package com.kitchen.sdk.instrument.utils;
+package com.kitchen.sdk.metrics;
 
 import com.kitchen.sdk.metrics.MetricsClient;
 import com.kitchen.sdk.metrics.annotation.Metrics;

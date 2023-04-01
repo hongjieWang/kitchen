@@ -3,7 +3,6 @@ package com.kitchen.sdk.metrics.log4j;
 import com.kitchen.sdk.metrics.log4j.helpers.LogLog;
 import com.kitchen.sdk.metrics.log4j.or.ObjectRenderer;
 import com.kitchen.sdk.metrics.log4j.or.RendererMap;
-import com.kitchen.sdk.log4j.spi.*;
 import com.kitchen.sdk.metrics.log4j.spi.*;
 
 import java.util.Enumeration;

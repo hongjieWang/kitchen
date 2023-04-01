@@ -33,7 +33,7 @@ public class MetricsClient {
     }
 
     public static MetricsClient newInstance(String k1, String k2, String k3) {
-        return new MetricsClient(k1, k2, k3);
+        return new MetricsClient(k1, k2, k3, "default");
     }
 
     public static MetricsClient newInstance(String k1, String k2, String k3, String environment) {
@@ -41,11 +41,11 @@ public class MetricsClient {
     }
 
     public static MetricsClient newInstance(String k1, String k2) {
-        return newInstance(k1, k2, "");
+        return newInstance(k1, k2, "", "default");
     }
 
     public static MetricsClient newInstance(String k1) {
-        return newInstance(k1, "", "");
+        return newInstance(k1, "", "", "default");
     }
 
     public MetricsClient qps() {

@@ -3,7 +3,6 @@ package com.kitchen.sdk.metrics.log4j;
 import com.kitchen.sdk.metrics.log4j.helpers.Loader;
 import com.kitchen.sdk.metrics.log4j.helpers.LogLog;
 import com.kitchen.sdk.metrics.log4j.helpers.OptionConverter;
-import com.kitchen.sdk.log4j.spi.*;
 import com.kitchen.sdk.metrics.log4j.spi.*;
 
 import java.io.PrintWriter;

@@ -1,6 +1,5 @@
 package com.kitchen.sdk.metrics.log4j.spi;
 
-import com.kitchen.sdk.log4j.*;
 import com.kitchen.sdk.metrics.log4j.*;
 
 import java.util.Enumeration;

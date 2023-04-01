@@ -4,7 +4,6 @@ import com.kitchen.sdk.metrics.log4j.config.PropertySetter;
 import com.kitchen.sdk.metrics.log4j.helpers.LogLog;
 import com.kitchen.sdk.metrics.log4j.helpers.OptionConverter;
 import com.kitchen.sdk.metrics.log4j.or.RendererMap;
-import com.kitchen.sdk.log4j.spi.*;
 import com.kitchen.sdk.metrics.log4j.spi.*;
 
 import java.io.FileInputStream;

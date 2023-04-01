@@ -2,7 +2,6 @@ package com.kitchen.sdk.metrics.loggers;
 
 
 import com.kitchen.sdk.metrics.MetricsRegister;
-import com.kitchen.sdk.log4j.*;
 import com.kitchen.sdk.metrics.log4j.*;
 import com.kitchen.sdk.metrics.log4j.helpers.LogLog;
 import com.kitchen.sdk.metrics.util.StringUtil;

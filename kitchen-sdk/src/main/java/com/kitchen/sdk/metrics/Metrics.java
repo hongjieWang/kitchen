@@ -18,7 +18,7 @@ public class Metrics {
     }
 
     public static RT RT(String key1, String key2, String key3, String environment) {
-        return new RT(key1, key2, key3);
+        return new RT(key1, key2, key3, environment);
     }
 
     public static RT RT(String key1, String key2, String key3) {

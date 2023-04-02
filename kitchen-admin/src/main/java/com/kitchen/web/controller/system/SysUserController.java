@@ -13,6 +13,7 @@ import com.kitchen.common.utils.StringUtils;
 import com.kitchen.common.utils.poi.ExcelUtil;
 import com.kitchen.common.utils.spring.SpringUtils;
 import com.kitchen.sdk.metrics.MetricsClient;
+import com.kitchen.sdk.metrics.annotation.Metrics;
 import com.kitchen.system.service.ISysDeptService;
 import com.kitchen.system.service.ISysPostService;
 import com.kitchen.system.service.ISysRoleService;
@@ -53,12 +54,11 @@ public class SysUserController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/list")
+    @Metrics(value = {"user-app", "user", "list"}, environment = "dev")
     public TableDataInfo list(SysUser user) {
-        MetricsClient metricsClient = MetricsClient.newInstance("demo", "test", "test1", SpringUtils.getActiveProfile());
         System.getenv();
         startPage();
         List<SysUser> list = userService.selectUserList(user);
-        metricsClient.qps().rt().sr_incrSuccess().sr_incrTotal();
         return getDataTable(list);
     }
 

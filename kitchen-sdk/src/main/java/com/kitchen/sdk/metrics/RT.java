@@ -26,6 +26,18 @@ public class RT extends AbstractMetrics {
         this.startTime = System.currentTimeMillis();
     }
 
+    /**
+     * @param key1
+     * @param key2
+     * @param key3
+     * @param environment 运行环境 生产、测试
+     */
+    public RT(String key1, String key2, String key3, String environment) {
+        super(key1, key2, key3, environment);
+        this.startTime = System.currentTimeMillis();
+    }
+
+    @Override
     public Type getMonitorType() {
         return Type.RT;
     }

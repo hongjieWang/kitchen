@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kitchen.system.mapper.NamespaceMapper">
+
+    <resultMap type="Namespace" id="NamespaceResult">
+        <result property="id" column="id"/>
+        <result property="namespace" column="namespace"/>
+        <result property="namespaceName" column="namespace_name"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectNamespaceVo">
+        select id,
+               namespace,
+               namespace_name,
+               status,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from namespace
+    </sql>
+
+    <select id="selectNamespaceList" parameterType="Namespace" resultMap="NamespaceResult">
+        <include refid="selectNamespaceVo"/>
+        <where>
+            <if test="namespace != null  and namespace != ''">and namespace = #{namespace}</if>
+            <if test="namespaceName != null  and namespaceName != ''">and namespace_name like concat('%',
+                #{namespaceName}, '%')
+            </if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectNamespaceById" parameterType="Long" resultMap="NamespaceResult">
+        <include refid="selectNamespaceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNamespace" parameterType="Namespace">
+        insert into namespace
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="namespace != null and namespace != ''">namespace,</if>
+            <if test="namespaceName != null">namespace_name,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="namespace != null and namespace != ''">#{namespace},</if>
+            <if test="namespaceName != null">#{namespaceName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNamespace" parameterType="Namespace">
+        update namespace
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="namespace != null and namespace != ''">namespace = #{namespace},</if>
+            <if test="namespaceName != null">namespace_name = #{namespaceName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNamespaceById" parameterType="Long">
+        delete
+        from namespace
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteNamespaceByIds" parameterType="String">
+        delete from namespace where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

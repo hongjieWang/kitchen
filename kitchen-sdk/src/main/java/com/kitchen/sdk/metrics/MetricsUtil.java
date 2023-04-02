@@ -1,6 +1,5 @@
 package com.kitchen.sdk.metrics;
 
-import com.kitchen.sdk.metrics.MetricsClient;
 import com.kitchen.sdk.metrics.annotation.Metrics;
 import com.kitchen.sdk.metrics.common.Type;
 import com.kitchen.sdk.metrics.util.BeanPropertyUtil;

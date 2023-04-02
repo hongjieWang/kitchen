@@ -1,10 +1,25 @@
 package com.kitchen.sdk.metrics.common;
 
 public enum Type {
+    /**
+     * 响应时间
+     */
     RT(false, true),
+    /**
+     * 每秒查询
+     */
     QPS(false, false),
+    /**
+     *成功率
+     */
     SUCCESS_RATE(true, false),
+    /**
+     * 失败率
+     */
     FAIL_RATE(true, false),
+    /**
+     * 命中率
+     */
     HIT_RATE(true, false),
     CUR(false, false),
     DEFAULT(false, false);

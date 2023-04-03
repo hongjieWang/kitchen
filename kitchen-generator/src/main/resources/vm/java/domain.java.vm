@@ -2,6 +2,8 @@ package ${packageName}.domain;
 
 #foreach ($import in $importList)
 import ${import};
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 #end
 #if($table.crud || $table.sub)
 #elseif($table.tree)

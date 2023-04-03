@@ -1,18 +1,22 @@
 package com.kitchen.system.domain;
 
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kitchen.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.Date;
-
 /**
- * 数据监控键值对象 metrics_kv
+ * 应用埋点对象 metrics_qps_day
  *
  * @author wanghongjie
  * @date 2023-04-03
  */
-public class MetricsKv extends BaseEntity {
+@TableName("metrics_qps_day")
+public class MetricsQpsDay extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -23,6 +27,7 @@ public class MetricsKv extends BaseEntity {
     /**
      * 时间戳
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date time;
 
     /**
@@ -49,26 +54,31 @@ public class MetricsKv extends BaseEntity {
      * 次数
      */
     private Long v1;
-
     /**
-     * 数值2
+     * 昨日次数
      */
+    @TableField(exist = false)
     private Long v2;
-
-    /**
-     * 最小值
-     */
-    private Long minValue;
-
-    /**
-     * 最大值
-     */
-    private Long maxValue;
 
     /**
      * 采集环境
      */
     private String environment;
+
+    /**
+     * Key1
+     */
+    private String keyOne;
+
+    /**
+     * Key2
+     */
+    private String keyTwo;
+
+    /**
+     * Key3
+     */
+    private String keyThird;
 
     public void setId(Long id) {
         this.id = id;
@@ -94,12 +104,12 @@ public class MetricsKv extends BaseEntity {
         return appName;
     }
 
-    public String getKeyValue() {
-        return keyValue;
-    }
-
     public void setKeyValue(String keyValue) {
         this.keyValue = keyValue;
+    }
+
+    public String getKeyValue() {
+        return keyValue;
     }
 
     public void setHostName(String hostName) {
@@ -126,30 +136,6 @@ public class MetricsKv extends BaseEntity {
         return v1;
     }
 
-    public void setV2(Long v2) {
-        this.v2 = v2;
-    }
-
-    public Long getV2() {
-        return v2;
-    }
-
-    public void setMinValue(Long minValue) {
-        this.minValue = minValue;
-    }
-
-    public Long getMinValue() {
-        return minValue;
-    }
-
-    public void setMaxValue(Long maxValue) {
-        this.maxValue = maxValue;
-    }
-
-    public Long getMaxValue() {
-        return maxValue;
-    }
-
     public void setEnvironment(String environment) {
         this.environment = environment;
     }
@@ -158,20 +144,52 @@ public class MetricsKv extends BaseEntity {
         return environment;
     }
 
+    public void setKeyOne(String keyOne) {
+        this.keyOne = keyOne;
+    }
+
+    public String getKeyOne() {
+        return keyOne;
+    }
+
+    public void setKeyTwo(String keyTwo) {
+        this.keyTwo = keyTwo;
+    }
+
+    public String getKeyTwo() {
+        return keyTwo;
+    }
+
+    public void setKeyThird(String keyThird) {
+        this.keyThird = keyThird;
+    }
+
+    public String getKeyThird() {
+        return keyThird;
+    }
+
+    public Long getV2() {
+        return v2;
+    }
+
+    public void setV2(Long v2) {
+        this.v2 = v2;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
                 .append("time", getTime())
                 .append("appName", getAppName())
-                .append("keys", getKeyValue())
+                .append("keyValue", getKeyValue())
                 .append("hostName", getHostName())
                 .append("logType", getLogType())
                 .append("v1", getV1())
-                .append("v2", getV2())
-                .append("minValue", getMinValue())
-                .append("maxValue", getMaxValue())
                 .append("environment", getEnvironment())
+                .append("keyOne", getKeyOne())
+                .append("keyTwo", getKeyTwo())
+                .append("keyThird", getKeyThird())
                 .toString();
     }
 }

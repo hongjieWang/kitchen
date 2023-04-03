@@ -33,7 +33,7 @@ import com.kitchen.system.service.IKeyConfigService;
  * @date 2023-04-02
  */
 @RestController
-@RequestMapping("/system/config" )
+@RequestMapping("/system/keyConfig")
 public class KeyConfigController extends BaseController {
     @Resource
     private IKeyConfigService keyConfigService;
@@ -41,9 +41,9 @@ public class KeyConfigController extends BaseController {
     /**
      * 查询key翻译列表
      */
-    @PreAuthorize("@ss.hasPermi('system:config:list')" )
+    @PreAuthorize("@ss.hasPermi('system:config:list')")
     @Metrics(value = {"XX服务", "key翻译", "列表查询"})
-    @GetMapping("/list" )
+    @GetMapping("/list")
     public TableDataInfo list(KeyConfig keyConfig) {
         startPage();
         List<KeyConfig> list = keyConfigService.selectKeyConfigList(keyConfig);
@@ -53,30 +53,30 @@ public class KeyConfigController extends BaseController {
     /**
      * 导出key翻译列表
      */
-    @PreAuthorize("@ss.hasPermi('system:config:export')" )
+    @PreAuthorize("@ss.hasPermi('system:config:export')")
     @Log(title = "key翻译", businessType = BusinessType.EXPORT)
     @Metrics(value = {"XX服务", "key翻译", "Excel导出"})
-    @PostMapping("/export" )
+    @PostMapping("/export")
     public void export(HttpServletResponse response, KeyConfig keyConfig) {
         List<KeyConfig> list = keyConfigService.selectKeyConfigList(keyConfig);
         ExcelUtil<KeyConfig> util = new ExcelUtil<KeyConfig>(KeyConfig.class);
-        util.exportExcel(response, list, "key翻译数据" );
+        util.exportExcel(response, list, "key翻译数据");
     }
 
     /**
      * 获取key翻译详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:config:query')" )
+    @PreAuthorize("@ss.hasPermi('system:config:query')")
     @Metrics(value = {"XX服务", "key翻译", "查询详情"})
-    @GetMapping(value = "/{id}" )
-    public AjaxResult getInfo(@PathVariable("id" ) Long id) {
+    @GetMapping(value = "/{id}")
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(keyConfigService.selectKeyConfigById(id));
     }
 
     /**
      * 新增key翻译
      */
-    @PreAuthorize("@ss.hasPermi('system:config:add')" )
+    @PreAuthorize("@ss.hasPermi('system:config:add')")
     @Log(title = "key翻译", businessType = BusinessType.INSERT)
     @Metrics(value = {"XX服务", "key翻译", "创建数据"})
     @PostMapping
@@ -87,7 +87,7 @@ public class KeyConfigController extends BaseController {
     /**
      * 修改key翻译
      */
-    @PreAuthorize("@ss.hasPermi('system:config:edit')" )
+    @PreAuthorize("@ss.hasPermi('system:config:edit')")
     @Log(title = "key翻译", businessType = BusinessType.UPDATE)
     @Metrics(value = {"XX服务", "key翻译", "更新数据"})
     @PutMapping
@@ -98,10 +98,10 @@ public class KeyConfigController extends BaseController {
     /**
      * 删除key翻译
      */
-    @PreAuthorize("@ss.hasPermi('system:config:remove')" )
+    @PreAuthorize("@ss.hasPermi('system:config:remove')")
     @Log(title = "key翻译", businessType = BusinessType.DELETE)
     @Metrics(value = {"XX服务", "key翻译", "删除数据"})
-    @DeleteMapping("/{ids}" )
+    @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(keyConfigService.deleteKeyConfigByIds(ids));
     }

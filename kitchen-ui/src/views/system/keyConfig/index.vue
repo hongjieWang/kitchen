@@ -8,26 +8,26 @@
       v-show="showSearch"
       label-width="68px"
     >
+      <el-form-item label="key" prop="key">
+        <el-input
+          v-model="queryParams.key"
+          placeholder="请输入key"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="名称" prop="name">
+        <el-input
+          v-model="queryParams.name"
+          placeholder="请输入名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="应用名称" prop="appName">
         <el-input
           v-model="queryParams.appName"
           placeholder="请输入应用名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="埋点key" prop="keys">
-        <el-input
-          v-model="queryParams.keys"
-          placeholder="请输入埋点key"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="采集环境" prop="environment">
-        <el-input
-          v-model="queryParams.environment"
-          placeholder="请输入采集环境"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -54,7 +54,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:kv:add']"
+          v-hasPermi="['system:config:add']"
           >新增</el-button
         >
       </el-col>
@@ -66,7 +66,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:kv:edit']"
+          v-hasPermi="['system:config:edit']"
           >修改</el-button
         >
       </el-col>
@@ -78,7 +78,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:kv:remove']"
+          v-hasPermi="['system:config:remove']"
           >删除</el-button
         >
       </el-col>
@@ -89,7 +89,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:kv:export']"
+          v-hasPermi="['system:config:export']"
           >导出</el-button
         >
       </el-col>
@@ -101,24 +101,39 @@
 
     <el-table
       v-loading="loading"
-      :data="kvList"
+      :data="configList"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="时间戳" align="center" prop="time" width="180">
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="key" align="center" prop="key" />
+      <el-table-column label="名称" align="center" prop="name" />
+      <el-table-column label="应用名称" align="center" prop="appName" />
+      <el-table-column label="部门状态" align="center" prop="status" />
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.time, "{y}-{m}-{d}") }}</span>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['system:config:edit']"
+            >修改</el-button
+          >
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['system:config:remove']"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
-      <el-table-column label="应用名称" align="center" prop="appName" />
-      <el-table-column label="埋点key" align="center" prop="keyValue" />
-      <el-table-column label="主机名称" align="center" prop="hostName" />
-      <el-table-column label="数据类型" align="center" prop="logType" />
-      <el-table-column label="次数" align="center" prop="v1" />
-      <el-table-column label="数值2" align="center" prop="v2" />
-      <el-table-column label="最小值" align="center" prop="minValue" />
-      <el-table-column label="最大值" align="center" prop="maxValue" />
-      <el-table-column label="采集环境" align="center" prop="environment" />
     </el-table>
 
     <pagination
@@ -129,42 +144,20 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改数据监控键值对话框 -->
+    <!-- 添加或修改key翻译对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="时间戳" prop="time">
-          <el-date-picker
-            clearable
-            v-model="form.time"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择时间戳"
-          >
-          </el-date-picker>
+        <el-form-item label="key" prop="key">
+          <el-input v-model="form.key" placeholder="请输入key" />
+        </el-form-item>
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="应用名称" prop="appName">
           <el-input v-model="form.appName" placeholder="请输入应用名称" />
         </el-form-item>
-        <el-form-item label="埋点key" prop="keys">
-          <el-input v-model="form.keys" placeholder="请输入埋点key" />
-        </el-form-item>
-        <el-form-item label="主机名称" prop="hostName">
-          <el-input v-model="form.hostName" placeholder="请输入主机名称" />
-        </el-form-item>
-        <el-form-item label="次数" prop="v1">
-          <el-input v-model="form.v1" placeholder="请输入次数" />
-        </el-form-item>
-        <el-form-item label="数值2" prop="v2">
-          <el-input v-model="form.v2" placeholder="请输入数值2" />
-        </el-form-item>
-        <el-form-item label="最小值" prop="minValue">
-          <el-input v-model="form.minValue" placeholder="请输入最小值" />
-        </el-form-item>
-        <el-form-item label="最大值" prop="maxValue">
-          <el-input v-model="form.maxValue" placeholder="请输入最大值" />
-        </el-form-item>
-        <el-form-item label="采集环境" prop="environment">
-          <el-input v-model="form.environment" placeholder="请输入采集环境" />
+        <el-form-item label="删除标志" prop="delFlag">
+          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -174,12 +167,18 @@
     </el-dialog>
   </div>
 </template>
-
-<script>
-import { listKv, getKv, delKv, addKv, updateKv } from "@/api/system/kv";
+  
+  <script>
+import {
+  listConfig,
+  getConfig,
+  delConfig,
+  addConfig,
+  updateConfig,
+} from "@/api/system/keyConfig";
 
 export default {
-  name: "Kv",
+  name: "Config",
   data() {
     return {
       // 遮罩层
@@ -194,8 +193,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 数据监控键值表格数据
-      kvList: [],
+      // key翻译表格数据
+      configList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -204,29 +203,17 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        time: null,
+        key: null,
+        name: null,
         appName: null,
-        keys: null,
-        hostName: null,
-        logType: null,
-        v1: null,
-        v2: null,
-        minValue: null,
-        maxValue: null,
-        environment: null,
+        status: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        time: [{ required: true, message: "时间戳不能为空", trigger: "blur" }],
-        appName: [
-          { required: true, message: "应用名称不能为空", trigger: "blur" },
-        ],
-        keys: [{ required: true, message: "埋点key不能为空", trigger: "blur" }],
-        logType: [
-          { required: true, message: "数据类型不能为空", trigger: "change" },
-        ],
+        key: [{ required: true, message: "key不能为空", trigger: "blur" }],
+        name: [{ required: true, message: "名称不能为空", trigger: "blur" }],
       },
     };
   },
@@ -234,11 +221,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询数据监控键值列表 */
+    /** 查询key翻译列表 */
     getList() {
       this.loading = true;
-      listKv(this.queryParams).then((response) => {
-        this.kvList = response.rows;
+      listConfig(this.queryParams).then((response) => {
+        this.configList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -252,16 +239,15 @@ export default {
     reset() {
       this.form = {
         id: null,
-        time: null,
+        key: null,
+        name: null,
         appName: null,
-        keys: null,
-        hostName: null,
-        logType: null,
-        v1: null,
-        v2: null,
-        minValue: null,
-        maxValue: null,
-        environment: null,
+        status: null,
+        delFlag: null,
+        createBy: null,
+        createTime: null,
+        updateBy: null,
+        updateTime: null,
       };
       this.resetForm("form");
     },
@@ -285,16 +271,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加数据监控键值";
+      this.title = "添加key翻译";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
-      getKv(id).then((response) => {
+      getConfig(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改数据监控键值";
+        this.title = "修改key翻译";
       });
     },
     /** 提交按钮 */
@@ -302,13 +288,13 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.id != null) {
-            updateKv(this.form).then((response) => {
+            updateConfig(this.form).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addKv(this.form).then((response) => {
+            addConfig(this.form).then((response) => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -321,9 +307,9 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除数据监控键值编号为"' + ids + '"的数据项？')
+        .confirm('是否确认删除key翻译编号为"' + ids + '"的数据项？')
         .then(function () {
-          return delKv(ids);
+          return delConfig(ids);
         })
         .then(() => {
           this.getList();
@@ -334,13 +320,14 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       this.download(
-        "system/kv/export",
+        "system/config/export",
         {
           ...this.queryParams,
         },
-        `kv_${new Date().getTime()}.xlsx`
+        `config_${new Date().getTime()}.xlsx`
       );
     },
   },
 };
 </script>
+  

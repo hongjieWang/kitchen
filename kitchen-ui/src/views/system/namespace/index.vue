@@ -8,26 +8,18 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="应用名称" prop="appName">
+      <el-form-item label="命名空间" prop="namespace">
         <el-input
-          v-model="queryParams.appName"
-          placeholder="请输入应用名称"
+          v-model="queryParams.namespace"
+          placeholder="请输入命名空间"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="埋点key" prop="keys">
+      <el-form-item label="命名空间名称" prop="namespaceName">
         <el-input
-          v-model="queryParams.keys"
-          placeholder="请输入埋点key"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="采集环境" prop="environment">
-        <el-input
-          v-model="queryParams.environment"
-          placeholder="请输入采集环境"
+          v-model="queryParams.namespaceName"
+          placeholder="请输入命名空间名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -54,7 +46,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:kv:add']"
+          v-hasPermi="['system:namespace:add']"
           >新增</el-button
         >
       </el-col>
@@ -66,7 +58,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:kv:edit']"
+          v-hasPermi="['system:namespace:edit']"
           >修改</el-button
         >
       </el-col>
@@ -78,7 +70,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:kv:remove']"
+          v-hasPermi="['system:namespace:remove']"
           >删除</el-button
         >
       </el-col>
@@ -89,7 +81,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:kv:export']"
+          v-hasPermi="['system:namespace:export']"
           >导出</el-button
         >
       </el-col>
@@ -101,24 +93,42 @@
 
     <el-table
       v-loading="loading"
-      :data="kvList"
+      :data="namespaceList"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="时间戳" align="center" prop="time" width="180">
+      <el-table-column label="ID" align="center" prop="id" />
+      <el-table-column label="命名空间" align="center" prop="namespace" />
+      <el-table-column
+        label="命名空间名称"
+        align="center"
+        prop="namespaceName"
+      />
+      <el-table-column label="部门状态" align="center" prop="status" />
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.time, "{y}-{m}-{d}") }}</span>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['system:namespace:edit']"
+            >修改</el-button
+          >
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['system:namespace:remove']"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
-      <el-table-column label="应用名称" align="center" prop="appName" />
-      <el-table-column label="埋点key" align="center" prop="keyValue" />
-      <el-table-column label="主机名称" align="center" prop="hostName" />
-      <el-table-column label="数据类型" align="center" prop="logType" />
-      <el-table-column label="次数" align="center" prop="v1" />
-      <el-table-column label="数值2" align="center" prop="v2" />
-      <el-table-column label="最小值" align="center" prop="minValue" />
-      <el-table-column label="最大值" align="center" prop="maxValue" />
-      <el-table-column label="采集环境" align="center" prop="environment" />
     </el-table>
 
     <pagination
@@ -129,42 +139,20 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改数据监控键值对话框 -->
+    <!-- 添加或修改命名空间对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="时间戳" prop="time">
-          <el-date-picker
-            clearable
-            v-model="form.time"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择时间戳"
-          >
-          </el-date-picker>
+        <el-form-item label="命名空间" prop="namespace">
+          <el-input v-model="form.namespace" placeholder="请输入命名空间" />
         </el-form-item>
-        <el-form-item label="应用名称" prop="appName">
-          <el-input v-model="form.appName" placeholder="请输入应用名称" />
+        <el-form-item label="命名空间名称" prop="namespaceName">
+          <el-input
+            v-model="form.namespaceName"
+            placeholder="请输入命名空间名称"
+          />
         </el-form-item>
-        <el-form-item label="埋点key" prop="keys">
-          <el-input v-model="form.keys" placeholder="请输入埋点key" />
-        </el-form-item>
-        <el-form-item label="主机名称" prop="hostName">
-          <el-input v-model="form.hostName" placeholder="请输入主机名称" />
-        </el-form-item>
-        <el-form-item label="次数" prop="v1">
-          <el-input v-model="form.v1" placeholder="请输入次数" />
-        </el-form-item>
-        <el-form-item label="数值2" prop="v2">
-          <el-input v-model="form.v2" placeholder="请输入数值2" />
-        </el-form-item>
-        <el-form-item label="最小值" prop="minValue">
-          <el-input v-model="form.minValue" placeholder="请输入最小值" />
-        </el-form-item>
-        <el-form-item label="最大值" prop="maxValue">
-          <el-input v-model="form.maxValue" placeholder="请输入最大值" />
-        </el-form-item>
-        <el-form-item label="采集环境" prop="environment">
-          <el-input v-model="form.environment" placeholder="请输入采集环境" />
+        <el-form-item label="删除标志" prop="delFlag">
+          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -174,12 +162,18 @@
     </el-dialog>
   </div>
 </template>
-
-<script>
-import { listKv, getKv, delKv, addKv, updateKv } from "@/api/system/kv";
+  
+  <script>
+import {
+  listNamespace,
+  getNamespace,
+  delNamespace,
+  addNamespace,
+  updateNamespace,
+} from "@/api/system/namespace";
 
 export default {
-  name: "Kv",
+  name: "Namespace",
   data() {
     return {
       // 遮罩层
@@ -194,8 +188,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 数据监控键值表格数据
-      kvList: [],
+      // 命名空间表格数据
+      namespaceList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -204,28 +198,16 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        time: null,
-        appName: null,
-        keys: null,
-        hostName: null,
-        logType: null,
-        v1: null,
-        v2: null,
-        minValue: null,
-        maxValue: null,
-        environment: null,
+        namespace: null,
+        namespaceName: null,
+        status: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        time: [{ required: true, message: "时间戳不能为空", trigger: "blur" }],
-        appName: [
-          { required: true, message: "应用名称不能为空", trigger: "blur" },
-        ],
-        keys: [{ required: true, message: "埋点key不能为空", trigger: "blur" }],
-        logType: [
-          { required: true, message: "数据类型不能为空", trigger: "change" },
+        namespace: [
+          { required: true, message: "命名空间不能为空", trigger: "blur" },
         ],
       },
     };
@@ -234,11 +216,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询数据监控键值列表 */
+    /** 查询命名空间列表 */
     getList() {
       this.loading = true;
-      listKv(this.queryParams).then((response) => {
-        this.kvList = response.rows;
+      listNamespace(this.queryParams).then((response) => {
+        this.namespaceList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -252,16 +234,14 @@ export default {
     reset() {
       this.form = {
         id: null,
-        time: null,
-        appName: null,
-        keys: null,
-        hostName: null,
-        logType: null,
-        v1: null,
-        v2: null,
-        minValue: null,
-        maxValue: null,
-        environment: null,
+        namespace: null,
+        namespaceName: null,
+        status: null,
+        delFlag: null,
+        createBy: null,
+        createTime: null,
+        updateBy: null,
+        updateTime: null,
       };
       this.resetForm("form");
     },
@@ -285,16 +265,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加数据监控键值";
+      this.title = "添加命名空间";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
-      getKv(id).then((response) => {
+      getNamespace(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改数据监控键值";
+        this.title = "修改命名空间";
       });
     },
     /** 提交按钮 */
@@ -302,13 +282,13 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.id != null) {
-            updateKv(this.form).then((response) => {
+            updateNamespace(this.form).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addKv(this.form).then((response) => {
+            addNamespace(this.form).then((response) => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -321,9 +301,9 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除数据监控键值编号为"' + ids + '"的数据项？')
+        .confirm('是否确认删除命名空间编号为"' + ids + '"的数据项？')
         .then(function () {
-          return delKv(ids);
+          return delNamespace(ids);
         })
         .then(() => {
           this.getList();
@@ -334,13 +314,14 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       this.download(
-        "system/kv/export",
+        "system/namespace/export",
         {
           ...this.queryParams,
         },
-        `kv_${new Date().getTime()}.xlsx`
+        `namespace_${new Date().getTime()}.xlsx`
       );
     },
   },
 };
 </script>
+  

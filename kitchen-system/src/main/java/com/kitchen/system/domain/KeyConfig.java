@@ -6,10 +6,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * key翻译对象 key_config
+ * 埋点配置对象 key_config
  *
  * @author wanghongjie
- * @date 2023-04-02
+ * @date 2023-04-04
  */
 public class KeyConfig extends BaseEntity {
     private static final long serialVersionUID = 1L;
@@ -22,7 +22,22 @@ public class KeyConfig extends BaseEntity {
     /**
      * key
      */
-    private String key;
+    private String keyValues;
+
+    /**
+     * Key1
+     */
+    private String keyOne;
+
+    /**
+     * key2
+     */
+    private String keyTwo;
+
+    /**
+     * key3
+     */
+    private String keyThird;
 
     /**
      * 名称
@@ -52,12 +67,36 @@ public class KeyConfig extends BaseEntity {
         return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKeyValues(String keyValues) {
+        this.keyValues = keyValues;
     }
 
-    public String getKey() {
-        return key;
+    public String getKeyValues() {
+        return keyValues;
+    }
+
+    public void setKeyOne(String keyOne) {
+        this.keyOne = keyOne;
+    }
+
+    public String getKeyOne() {
+        return keyOne;
+    }
+
+    public void setKeyTwo(String keyTwo) {
+        this.keyTwo = keyTwo;
+    }
+
+    public String getKeyTwo() {
+        return keyTwo;
+    }
+
+    public void setKeyThird(String keyThird) {
+        this.keyThird = keyThird;
+    }
+
+    public String getKeyThird() {
+        return keyThird;
     }
 
     public void setName(String name) {
@@ -96,7 +135,10 @@ public class KeyConfig extends BaseEntity {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
-                .append("key", getKey())
+                .append("keyValues", getKeyValues())
+                .append("keyOne", getKeyOne())
+                .append("keyTwo", getKeyTwo())
+                .append("keyThird", getKeyThird())
                 .append("name", getName())
                 .append("appName", getAppName())
                 .append("status", getStatus())

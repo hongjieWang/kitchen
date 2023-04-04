@@ -43,7 +43,7 @@ public class MetricsQpsDayController extends BaseController {
      * 查询应用埋点列表system::list
      */
     @PreAuthorize("@ss.hasPermi('system:metricsQpsDay:list')")
-    @Metrics(value = {"XX服务", "应用埋点", "列表查询"})
+    @Metrics(value = {"监控服务", "应用埋点", "列表查询"})
     @GetMapping("/list")
     public TableDataInfo list(MetricsQpsDay metricsQpsDay) {
         startPage();
@@ -56,7 +56,7 @@ public class MetricsQpsDayController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:metricsQpsDay:export')")
     @Log(title = "应用埋点", businessType = BusinessType.EXPORT)
-    @Metrics(value = {"XX服务", "应用埋点", "Excel导出"})
+    @Metrics(value = {"监控服务", "应用埋点", "Excel导出"})
     @PostMapping("/export")
     public void export(HttpServletResponse response, MetricsQpsDay metricsQpsDay) {
         List<MetricsQpsDay> list = metricsQpsDayService.selectMetricsQpsDayList(metricsQpsDay);
@@ -68,7 +68,7 @@ public class MetricsQpsDayController extends BaseController {
      * 获取应用埋点详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:metricsQpsDay:query')")
-    @Metrics(value = {"XX服务", "应用埋点", "查询详情"})
+    @Metrics(value = {"监控服务", "应用埋点", "查询详情"})
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(metricsQpsDayService.selectMetricsQpsDayById(id));
@@ -79,7 +79,7 @@ public class MetricsQpsDayController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:metricsQpsDay:add')")
     @Log(title = "应用埋点", businessType = BusinessType.INSERT)
-    @Metrics(value = {"XX服务", "应用埋点", "创建数据"})
+    @Metrics(value = {"监控服务", "应用埋点", "创建数据"})
     @PostMapping
     public AjaxResult add(@RequestBody MetricsQpsDay metricsQpsDay) {
         return toAjax(metricsQpsDayService.insertMetricsQpsDay(metricsQpsDay));
@@ -90,7 +90,7 @@ public class MetricsQpsDayController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:metricsQpsDay:edit')")
     @Log(title = "应用埋点", businessType = BusinessType.UPDATE)
-    @Metrics(value = {"XX服务", "应用埋点", "更新数据"})
+    @Metrics(value = {"监控服务", "应用埋点", "更新数据"})
     @PutMapping
     public AjaxResult edit(@RequestBody MetricsQpsDay metricsQpsDay) {
         return toAjax(metricsQpsDayService.updateMetricsQpsDay(metricsQpsDay));
@@ -101,7 +101,7 @@ public class MetricsQpsDayController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:metricsQpsDay:remove')")
     @Log(title = "应用埋点", businessType = BusinessType.DELETE)
-    @Metrics(value = {"XX服务", "应用埋点", "删除数据"})
+    @Metrics(value = {"监控服务", "应用埋点", "删除数据"})
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(metricsQpsDayService.deleteMetricsQpsDayByIds(ids));

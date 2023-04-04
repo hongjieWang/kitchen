@@ -47,28 +47,66 @@
       </el-form-item>
     </el-form>
 
-    <el-table
-      v-loading="loading"
-      :data="dayList"
-      border
-      :span-method="spanMethod"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column label="Key1" align="center" prop="keyOne" />
-      <el-table-column label="Key2" align="center" prop="keyTwo" />
-      <el-table-column label="Key3" align="center" prop="keyThird" />
-      <el-table-column label="今日次数" align="center" prop="v1" />
-      <el-table-column label="昨日次数" align="center" prop="v2" />
-      <el-table-column label="命名空间" align="center" prop="environment" />
-    </el-table>
-
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="请求量" name="qps">
+        <el-table
+          v-loading="loading"
+          :data="dayList"
+          border
+          :span-method="spanMethod"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column label="Key1" align="center" prop="keyOne" />
+          <el-table-column label="Key2" align="center" prop="keyTwo" />
+          <el-table-column label="Key3" align="center" prop="keyThird" />
+          <el-table-column label="今日次数" align="center" prop="v1" />
+          <el-table-column label="昨日次数" align="center" prop="v2" />
+          <el-table-column label="命名空间" align="center" prop="environment" />
+        </el-table>
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="queryParams.pageNum"
+          :limit.sync="queryParams.pageSize"
+          :pageSizes="[100, 200, 300, 500]"
+          @pagination="getList"
+        />
+      </el-tab-pane>
+      <el-tab-pane label="平均响应时间" name="first">
+        <el-table
+          v-loading="loading"
+          :data="dayList"
+          border
+          :span-method="spanMethod"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column label="Key1" align="center" prop="keyOne" />
+          <el-table-column label="Key2" align="center" prop="keyTwo" />
+          <el-table-column label="Key3" align="center" prop="keyThird" />
+          <el-table-column label="今日平均时间" align="center" prop="v1" />
+          <el-table-column label="昨日平均时间" align="center" prop="v2" />
+          <el-table-column
+            label="今日最小值"
+            align="center"
+            prop="environment"
+          />
+          <el-table-column
+            label="今日最大值"
+            align="center"
+            prop="environment"
+          />
+        </el-table>
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="queryParams.pageNum"
+          :limit.sync="queryParams.pageSize"
+          :pageSizes="[100, 200, 300, 500]"
+          @pagination="getList"
+        />
+      </el-tab-pane>
+      <el-tab-pane label="成功率" name="third">角色管理</el-tab-pane>
+    </el-tabs>
   </div>
 </template>
   
@@ -95,6 +133,7 @@ export default {
       multiple: true,
       // 显示搜索条件
       showSearch: true,
+      activeName: "qps",
       // 总条数
       total: 0,
       // 应用埋点表格数据
@@ -106,7 +145,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 100,
         time: null,
         appName: null,
         keyValue: null,
@@ -154,6 +193,10 @@ export default {
         this.loading = false;
         this.rowspan();
       });
+    },
+
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
 
     rowspan() {

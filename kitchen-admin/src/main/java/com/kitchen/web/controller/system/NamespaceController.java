@@ -33,7 +33,7 @@ public class NamespaceController extends BaseController {
      * 查询命名空间列表
      */
     @PreAuthorize("@ss.hasPermi('system:namespace:list')" )
-    @Metrics(value = {"XX服务", "命名空间", "列表查询"})
+    @Metrics(value = {"监控服务", "命名空间", "列表查询"})
     @GetMapping("/list" )
     public TableDataInfo list(Namespace namespace) {
         startPage();
@@ -46,7 +46,7 @@ public class NamespaceController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:namespace:export')" )
     @Log(title = "命名空间", businessType = BusinessType.EXPORT)
-    @Metrics(value = {"XX服务", "命名空间", "Excel导出"})
+    @Metrics(value = {"监控服务", "命名空间", "Excel导出"})
     @PostMapping("/export" )
     public void export(HttpServletResponse response, Namespace namespace) {
         List<Namespace> list = namespaceService.selectNamespaceList(namespace);
@@ -58,7 +58,7 @@ public class NamespaceController extends BaseController {
      * 获取命名空间详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:namespace:query')" )
-    @Metrics(value = {"XX服务", "命名空间", "查询详情"})
+    @Metrics(value = {"监控服务", "命名空间", "查询详情"})
     @GetMapping(value = "/{id}" )
     public AjaxResult getInfo(@PathVariable("id" ) Long id) {
         return AjaxResult.success(namespaceService.selectNamespaceById(id));
@@ -69,7 +69,7 @@ public class NamespaceController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:namespace:add')" )
     @Log(title = "命名空间", businessType = BusinessType.INSERT)
-    @Metrics(value = {"XX服务", "命名空间", "创建数据"})
+    @Metrics(value = {"监控服务", "命名空间", "创建数据"})
     @PostMapping
     public AjaxResult add(@RequestBody Namespace namespace) {
         return toAjax(namespaceService.insertNamespace(namespace));
@@ -80,7 +80,7 @@ public class NamespaceController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:namespace:edit')" )
     @Log(title = "命名空间", businessType = BusinessType.UPDATE)
-    @Metrics(value = {"XX服务", "命名空间", "更新数据"})
+    @Metrics(value = {"监控服务", "命名空间", "更新数据"})
     @PutMapping
     public AjaxResult edit(@RequestBody Namespace namespace) {
         return toAjax(namespaceService.updateNamespace(namespace));
@@ -91,7 +91,7 @@ public class NamespaceController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:namespace:remove')" )
     @Log(title = "命名空间", businessType = BusinessType.DELETE)
-    @Metrics(value = {"XX服务", "命名空间", "删除数据"})
+    @Metrics(value = {"监控服务", "命名空间", "删除数据"})
     @DeleteMapping("/{ids}" )
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(namespaceService.deleteNamespaceByIds(ids));

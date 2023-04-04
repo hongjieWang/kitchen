@@ -52,6 +52,21 @@ public class KeyConfigServiceImpl extends ServiceImpl<KeyConfigMapper, KeyConfig
     @Override
     public int insertKeyConfig(KeyConfig keyConfig) {
         keyConfig.setCreateTime(new Date());
+        String keyValues = keyConfig.getKeyValues();
+        String[] split = keyValues.split("#");
+        if (split.length == 3) {
+            keyConfig.setKeyOne(split[0]);
+            keyConfig.setKeyTwo(split[1]);
+            keyConfig.setKeyThird(split[2]);
+        } else if (split.length == 2) {
+            keyConfig.setKeyOne(split[0]);
+            keyConfig.setKeyTwo(split[1]);
+            keyConfig.setKeyThird("-");
+        } else if (split.length == 1) {
+            keyConfig.setKeyOne(split[0]);
+            keyConfig.setKeyTwo("-");
+            keyConfig.setKeyThird("-");
+        }
         return keyConfigMapper.insertKeyConfig(keyConfig);
     }
 

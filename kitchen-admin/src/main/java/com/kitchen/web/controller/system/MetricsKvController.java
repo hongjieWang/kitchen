@@ -1,6 +1,7 @@
 package com.kitchen.web.controller.system;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +32,7 @@ import com.kitchen.common.core.page.TableDataInfo;
 @RestController
 @RequestMapping("/system/kv")
 public class MetricsKvController extends BaseController {
-    @Autowired
+    @Resource
     private IMetricsKvService metricsKvService;
 
     /**

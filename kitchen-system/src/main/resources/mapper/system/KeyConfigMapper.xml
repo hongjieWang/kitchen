@@ -5,30 +5,50 @@
 <mapper namespace="com.kitchen.system.mapper.KeyConfigMapper">
 
     <resultMap type="KeyConfig" id="KeyConfigResult">
-        <result property="id"    column="id"    />
-        <result property="key"    column="key"    />
-        <result property="name"    column="name"    />
-        <result property="appName"    column="app_name"    />
-        <result property="status"    column="status"    />
-        <result property="delFlag"    column="del_flag"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
+        <result property="id" column="id"/>
+        <result property="keyValues" column="key_values"/>
+        <result property="keyOne" column="key_one"/>
+        <result property="keyTwo" column="key_two"/>
+        <result property="keyThird" column="key_third"/>
+        <result property="name" column="name"/>
+        <result property="appName" column="app_name"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="selectKeyConfigVo">
-        select id, key, name, app_name, status, del_flag, create_by, create_time, update_by, update_time from key_config
+        select id,
+               key_values,
+               key_one,
+               key_two,
+               key_third,
+               name,
+               app_name,
+               status,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from key_config
     </sql>
 
     <select id="selectKeyConfigList" parameterType="KeyConfig" resultMap="KeyConfigResult">
         <include refid="selectKeyConfigVo"/>
         <where>
-            <if test="key != null  and key != ''"> and key = #{key}</if>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="appName != null  and appName != ''"> and app_name like concat('%', #{appName}, '%')</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="keyValues != null  and keyValues != ''">and key_values = #{keyValues}</if>
+            <if test="keyOne != null  and keyOne != ''">and key_one = #{keyOne}</if>
+            <if test="keyTwo != null  and keyTwo != ''">and key_two = #{keyTwo}</if>
+            <if test="keyThird != null  and keyThird != ''">and key_third = #{keyThird}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="appName != null  and appName != ''">and app_name like concat('%', #{appName}, '%')</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
         </where>
+        order by key_one,key_two
     </select>
 
     <select id="selectKeyConfigById" parameterType="Long" resultMap="KeyConfigResult">
@@ -36,12 +56,14 @@
         where id = #{id}
     </select>
 
-    <insert id="insertKeyConfig" parameterType="KeyConfig">
+    <insert id="insertKeyConfig" parameterType="KeyConfig" useGeneratedKeys="true" keyProperty="id">
         insert into key_config
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
-            <if test="key != null and key != ''">key,</if>
-            <if test="name != null and name != ''">name,</if>
+            <if test="keyValues != null and keyValues != ''">key_values,</if>
+            <if test="keyOne != null and keyOne != ''">key_one,</if>
+            <if test="keyTwo != null and keyTwo != ''">key_two,</if>
+            <if test="keyThird != null and keyThird != ''">key_third,</if>
+            <if test="name != null">name,</if>
             <if test="appName != null">app_name,</if>
             <if test="status != null">status,</if>
             <if test="delFlag != null">del_flag,</if>
@@ -51,9 +73,11 @@
             <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
-            <if test="key != null and key != ''">#{key},</if>
-            <if test="name != null and name != ''">#{name},</if>
+            <if test="keyValues != null and keyValues != ''">#{keyValues},</if>
+            <if test="keyOne != null and keyOne != ''">#{keyOne},</if>
+            <if test="keyTwo != null and keyTwo != ''">#{keyTwo},</if>
+            <if test="keyThird != null and keyThird != ''">#{keyThird},</if>
+            <if test="name != null">#{name},</if>
             <if test="appName != null">#{appName},</if>
             <if test="status != null">#{status},</if>
             <if test="delFlag != null">#{delFlag},</if>
@@ -67,8 +91,11 @@
     <update id="updateKeyConfig" parameterType="KeyConfig">
         update key_config
         <trim prefix="SET" suffixOverrides=",">
-            <if test="key != null and key != ''">key = #{key},</if>
-            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="keyValues != null and keyValues != ''">key_values = #{keyValues},</if>
+            <if test="keyOne != null and keyOne != ''">key_one = #{keyOne},</if>
+            <if test="keyTwo != null and keyTwo != ''">key_two = #{keyTwo},</if>
+            <if test="keyThird != null and keyThird != ''">key_third = #{keyThird},</if>
+            <if test="name != null">name = #{name},</if>
             <if test="appName != null">app_name = #{appName},</if>
             <if test="status != null">status = #{status},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
@@ -81,7 +108,9 @@
     </update>
 
     <delete id="deleteKeyConfigById" parameterType="Long">
-        delete from key_config where id = #{id}
+        delete
+        from key_config
+        where id = #{id}
     </delete>
 
     <delete id="deleteKeyConfigByIds" parameterType="String">

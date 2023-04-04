@@ -8,18 +8,10 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="key" prop="key">
+      <el-form-item label="key" prop="keyValues">
         <el-input
-          v-model="queryParams.key"
+          v-model="queryParams.keyValues"
           placeholder="请输入key"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -102,14 +94,14 @@
     <el-table
       v-loading="loading"
       :data="configList"
+      border
+      :span-method="spanMethod"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="key" align="center" prop="key" />
-      <el-table-column label="名称" align="center" prop="name" />
+      <el-table-column label="Key1" align="center" prop="keyOne" />
+      <el-table-column label="key2" align="center" prop="keyTwo" />
+      <el-table-column label="key3" align="center" prop="keyThird" />
       <el-table-column label="应用名称" align="center" prop="appName" />
-      <el-table-column label="部门状态" align="center" prop="status" />
       <el-table-column
         label="操作"
         align="center"
@@ -141,23 +133,18 @@
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
+      :pageSizes="[100, 200, 300, 500]"
       @pagination="getList"
     />
 
-    <!-- 添加或修改key翻译对话框 -->
+    <!-- 添加或修改埋点配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="key" prop="key">
-          <el-input v-model="form.key" placeholder="请输入key" />
-        </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称" />
+        <el-form-item label="key" prop="keyValues">
+          <el-input v-model="form.keyValues" placeholder="请输入key" />
         </el-form-item>
         <el-form-item label="应用名称" prop="appName">
           <el-input v-model="form.appName" placeholder="请输入应用名称" />
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -167,8 +154,8 @@
     </el-dialog>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import {
   listConfig,
   getConfig,
@@ -193,7 +180,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // key翻译表格数据
+      // 埋点配置表格数据
       configList: [],
       // 弹出层标题
       title: "",
@@ -202,18 +189,31 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
-        key: null,
+        pageSize: 100,
+        keyValues: null,
+        keyOne: null,
+        keyTwo: null,
+        keyThird: null,
         name: null,
         appName: null,
         status: null,
       },
+      spanArr1: [],
+      spanArr2: [],
+      position1: 0,
+      position2: 0,
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        key: [{ required: true, message: "key不能为空", trigger: "blur" }],
-        name: [{ required: true, message: "名称不能为空", trigger: "blur" }],
+        keyValues: [
+          { required: true, message: "key不能为空", trigger: "blur" },
+        ],
+        keyOne: [{ required: true, message: "Key1不能为空", trigger: "blur" }],
+        keyTwo: [{ required: true, message: "key2不能为空", trigger: "blur" }],
+        keyThird: [
+          { required: true, message: "key3不能为空", trigger: "blur" },
+        ],
       },
     };
   },
@@ -221,14 +221,67 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询key翻译列表 */
+    /** 查询埋点配置列表 */
     getList() {
       this.loading = true;
       listConfig(this.queryParams).then((response) => {
         this.configList = response.rows;
         this.total = response.total;
         this.loading = false;
+        this.rowspan();
       });
+    },
+    rowspan() {
+      this.spanArr1 = [];
+      this.spanArr2 = [];
+      this.position1 = 0;
+      this.position2 = 0;
+      this.configList.forEach((item, index) => {
+        if (index === 0) {
+          this.spanArr1.push(1);
+          this.spanArr2.push(1);
+          this.position1 = 0;
+          this.position2 = 0;
+        } else {
+          if (
+            this.configList[index].keyOne === this.configList[index - 1].keyOne
+          ) {
+            this.spanArr1[this.position1] += 1;
+            this.spanArr1.push(0);
+          } else {
+            this.spanArr1.push(1);
+            this.position1 = index;
+          }
+          if (
+            this.configList[index].keyOne ===
+              this.configList[index - 1].keyOne &&
+            this.configList[index].keyTwo === this.configList[index - 1].keyTwo
+          ) {
+            this.spanArr2[this.position2] += 1;
+            this.spanArr2.push(0);
+          } else {
+            this.spanArr2.push(1);
+            this.position2 = index;
+          }
+        }
+      });
+    },
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        const _row = this.spanArr1[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row, //行
+          colspan: _col, //列
+        };
+      } else if (columnIndex === 1) {
+        const _row = this.spanArr2[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row, //行
+          colspan: _col, //列
+        };
+      }
     },
     // 取消按钮
     cancel() {
@@ -239,7 +292,10 @@ export default {
     reset() {
       this.form = {
         id: null,
-        key: null,
+        keyValues: null,
+        keyOne: null,
+        keyTwo: null,
+        keyThird: null,
         name: null,
         appName: null,
         status: null,
@@ -269,9 +325,8 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
       this.open = true;
-      this.title = "添加key翻译";
+      this.title = "添加埋点配置";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -280,7 +335,7 @@ export default {
       getConfig(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改key翻译";
+        this.title = "修改埋点配置";
       });
     },
     /** 提交按钮 */
@@ -307,7 +362,7 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除key翻译编号为"' + ids + '"的数据项？')
+        .confirm('是否确认删除埋点配置编号为"' + ids + '"的数据项？')
         .then(function () {
           return delConfig(ids);
         })
@@ -330,4 +385,3 @@ export default {
   },
 };
 </script>
-  

@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kitchen.common.utils.DateUtils;
 import com.kitchen.common.utils.StringUtils;
+import com.kitchen.system.domain.KeyConfig;
 import com.kitchen.system.domain.MetricsQpsDay;
+import com.kitchen.system.mapper.KeyConfigMapper;
 import com.kitchen.system.mapper.MetricsQpsDayMapper;
 import com.kitchen.system.service.IMetricsQpsDayService;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -25,6 +27,9 @@ import java.util.*;
 public class MetricsQpsDayServiceImpl extends ServiceImpl<MetricsQpsDayMapper, MetricsQpsDay> implements IMetricsQpsDayService {
     @Resource
     private MetricsQpsDayMapper metricsQpsDayMapper;
+
+    @Resource
+    private KeyConfigMapper keyConfigMapper;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -69,6 +74,8 @@ public class MetricsQpsDayServiceImpl extends ServiceImpl<MetricsQpsDayMapper, M
      */
     @Override
     public List<MetricsQpsDay> selectMetricsQpsDayList(MetricsQpsDay metricsQpsDay) {
+        List<KeyConfig> keyConfigs = keyConfigMapper.selectKeyConfigList(new KeyConfig());
+        List<MetricsQpsDay> metricsQpsDays = new ArrayList<>(keyConfigs.size());
         Map<String, Object> params = metricsQpsDay.getParams();
         if (params.size() == 0) {
             params = new HashMap<>(8);
@@ -76,7 +83,21 @@ public class MetricsQpsDayServiceImpl extends ServiceImpl<MetricsQpsDayMapper, M
             params.put("endTime", DateUtils.getDate());
             metricsQpsDay.setParams(params);
         }
-        List<MetricsQpsDay> metricsQpsDays = metricsQpsDayMapper.selectMetricsQpsDayList(metricsQpsDay);
+        keyConfigs.forEach(keyConfig -> {
+            metricsQpsDay.setKeyValue(keyConfig.getKeyValues());
+            List<MetricsQpsDay> dbMetricsQpsDays = metricsQpsDayMapper.selectMetricsQpsDayList(metricsQpsDay);
+            if (dbMetricsQpsDays.isEmpty()) {
+                MetricsQpsDay newMetricsQpsDay = new MetricsQpsDay();
+                newMetricsQpsDay.setKeyOne(keyConfig.getKeyOne());
+                newMetricsQpsDay.setKeyTwo(keyConfig.getKeyTwo());
+                newMetricsQpsDay.setKeyThird(keyConfig.getKeyThird());
+                newMetricsQpsDay.setV1(0L);
+                newMetricsQpsDay.setEnvironment("-");
+                metricsQpsDays.add(newMetricsQpsDay);
+            } else {
+                metricsQpsDays.add(dbMetricsQpsDays.get(0));
+            }
+        });
         getLastDay(metricsQpsDays);
         return metricsQpsDays;
     }

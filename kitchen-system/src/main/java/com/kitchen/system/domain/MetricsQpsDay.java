@@ -80,6 +80,11 @@ public class MetricsQpsDay extends BaseEntity {
      */
     private String keyThird;
 
+    @TableField(exist = false)
+    private Long min;
+    @TableField(exist = false)
+    private Long max;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -174,6 +179,22 @@ public class MetricsQpsDay extends BaseEntity {
 
     public void setV2(Long v2) {
         this.v2 = v2;
+    }
+
+    public Long getMin() {
+        return min;
+    }
+
+    public void setMin(Long min) {
+        this.min = min;
+    }
+
+    public Long getMax() {
+        return max;
+    }
+
+    public void setMax(Long max) {
+        this.max = max;
     }
 
     @Override

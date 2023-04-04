@@ -1,6 +1,7 @@
 package com.kitchen.system.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kitchen.common.utils.DateUtils;
@@ -95,7 +96,13 @@ public class MetricsQpsDayServiceImpl extends ServiceImpl<MetricsQpsDayMapper, M
                 newMetricsQpsDay.setEnvironment("-");
                 metricsQpsDays.add(newMetricsQpsDay);
             } else {
-                metricsQpsDays.add(dbMetricsQpsDays.get(0));
+                MetricsQpsDay metricsQps = dbMetricsQpsDays.get(0);
+                if (StringUtils.isNotEmpty(metricsQps.getRemark())) {
+                    JSONObject jsonObject = JSON.parseObject(metricsQps.getRemark());
+                    metricsQps.setMin(jsonObject.getLong("min"));
+                    metricsQps.setMax(jsonObject.getLong("max"));
+                }
+                metricsQpsDays.add(metricsQps);
             }
         });
         getLastDay(metricsQpsDays);

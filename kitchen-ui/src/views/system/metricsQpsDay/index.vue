@@ -72,7 +72,7 @@
           @pagination="getList"
         />
       </el-tab-pane>
-      <el-tab-pane label="平均响应时间" name="first">
+      <el-tab-pane label="平均响应时间" name="rt">
         <el-table
           v-loading="loading"
           :data="dayList"
@@ -85,16 +85,9 @@
           <el-table-column label="Key3" align="center" prop="keyThird" />
           <el-table-column label="今日平均时间" align="center" prop="v1" />
           <el-table-column label="昨日平均时间" align="center" prop="v2" />
-          <el-table-column
-            label="今日最小值"
-            align="center"
-            prop="environment"
-          />
-          <el-table-column
-            label="今日最大值"
-            align="center"
-            prop="environment"
-          />
+          <el-table-column label="今日最小值" align="center" prop="min" />
+          <el-table-column label="今日最大值" align="center" prop="max" />
+          <el-table-column label="命名空间" align="center" prop="environment" />
         </el-table>
         <pagination
           v-show="total > 0"
@@ -196,7 +189,13 @@ export default {
     },
 
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab.name, event);
+      if (tab.name == "qps") {
+        this.queryParams.logType = "QPS";
+      } else {
+        this.queryParams.logType = "RT";
+      }
+      this.getList();
     },
 
     rowspan() {

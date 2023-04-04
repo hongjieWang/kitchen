@@ -16,10 +16,11 @@
         <result property="keyOne" column="key_one"/>
         <result property="keyTwo" column="key_two"/>
         <result property="keyThird" column="key_third"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectMetricsQpsDayVo">
-        select id, time, app_name, key_value, host_name, log_type, v1, environment, key_one, key_two, key_third from
+        select id, time, app_name, key_value, host_name, log_type, v1, environment, key_one, key_two, key_third ,remark from
         metrics_qps_day
     </sql>
 
@@ -62,6 +63,7 @@
             <if test="keyOne != null">key_one,</if>
             <if test="keyTwo != null">key_two,</if>
             <if test="keyThird != null">key_third,</if>
+            <if test="remark != null">remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="time != null">#{time},</if>
@@ -74,6 +76,7 @@
             <if test="keyOne != null">#{keyOne},</if>
             <if test="keyTwo != null">#{keyTwo},</if>
             <if test="keyThird != null">#{keyThird},</if>
+            <if test="remark != null">#{remark},</if>
         </trim>
     </insert>
 
@@ -90,6 +93,7 @@
             <if test="keyOne != null">key_one = #{keyOne},</if>
             <if test="keyTwo != null">key_two = #{keyTwo},</if>
             <if test="keyThird != null">key_third = #{keyThird},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>

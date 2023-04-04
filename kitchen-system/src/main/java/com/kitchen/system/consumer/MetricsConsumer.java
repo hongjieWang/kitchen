@@ -1,6 +1,7 @@
 package com.kitchen.system.consumer;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.kitchen.common.utils.DateUtils;
 import com.kitchen.common.utils.bean.BeanUtils;
 import com.kitchen.system.domain.MetricsKv;
@@ -59,6 +60,7 @@ public class MetricsConsumer {
                     BeanUtils.copyProperties(kv, metricsKv);
                     metricsKvService.insertMetricsKv(metricsKv);
                     addQps(metricsKv);
+                    addRt(metricsKv);
                 });
             } catch (Exception ignored) {
             } finally {
@@ -96,6 +98,26 @@ public class MetricsConsumer {
         }
     }
 
+    private void addRt(MetricsKv metricsKv) {
+        if ("RT".equals(metricsKv.getLogType())) {
+            String keyValue = metricsKv.getKeyValue();
+            String[] split = keyValue.split(KEY_SPLIT);
+            if (split.length == 3) {
+                String key1 = split[0];
+                String key2 = split[1];
+                String key3 = split[2];
+                createAndUpdateRt(metricsKv, key1, key2, key3);
+            } else if (split.length == 2) {
+                String key1 = split[0];
+                String key2 = split[1];
+                createAndUpdateRt(metricsKv, key1, key2, DEFAULT_KEY);
+            } else if (split.length == 1) {
+                String key1 = split[0];
+                createAndUpdateRt(metricsKv, key1, DEFAULT_KEY, DEFAULT_KEY);
+            }
+        }
+    }
+
     /**
      * 创建and更新当日数据
      *
@@ -107,7 +129,7 @@ public class MetricsConsumer {
     private void createAndUpdate(MetricsKv metricsKv, String key1, String key2, String key3) {
         List<MetricsQpsDay> metricsQpsDays = metricsQpsDayService.selectByTimeAndKeys(beginTime(), endTime(), "QPS", key1, key2, key3);
         if (Objects.isNull(metricsQpsDays) || metricsQpsDays.isEmpty()) {
-            createMetricsQpsDay(metricsKv, key1, key2, key3);
+            createMetricsQpsDay(metricsKv, key1, key2, key3, "QPS", "QPS");
         } else {
             MetricsQpsDay metricsQpsDay = metricsQpsDays.get(0);
             metricsQpsDay.setV1(metricsQpsDay.getV1() + metricsKv.getV1());
@@ -116,7 +138,49 @@ public class MetricsConsumer {
         }
     }
 
-    private void createMetricsQpsDay(MetricsKv metricsKv, String key1, String key2, String key3) {
+    /**
+     * 创建and更新当日数据
+     *
+     * @param metricsKv 上报数据
+     * @param key1      key1
+     * @param key2      key2
+     * @param key3      key3
+     */
+    private void createAndUpdateRt(MetricsKv metricsKv, String key1, String key2, String key3) {
+        List<MetricsQpsDay> metricsQpsDays = metricsQpsDayService.selectByTimeAndKeys(beginTime(), endTime(), "RT", key1, key2, key3);
+        if (Objects.isNull(metricsQpsDays) || metricsQpsDays.isEmpty()) {
+            Long v2 = metricsKv.getV2();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("num", v2);
+            jsonObject.put("min", metricsKv.getMinValue());
+            jsonObject.put("max", metricsKv.getMaxValue());
+            createMetricsQpsDay(metricsKv, key1, key2, key3, "RT", jsonObject.toString());
+        } else {
+            MetricsQpsDay metricsQpsDay = metricsQpsDays.get(0);
+            String remark = metricsQpsDay.getRemark();
+            JSONObject jsonObject = JSON.parseObject(remark);
+            Long num = jsonObject.getLong("num");
+            Long curMin = jsonObject.getLong("min");
+            Long curMax = jsonObject.getLong("max");
+            long allTime = metricsQpsDay.getV1() * num;
+            long l = allTime + metricsKv.getV1() * metricsKv.getV2();
+            long average = l / (num + metricsKv.getV2());
+
+            long min = (curMin < 0L || metricsKv.getMinValue() < curMin) ? metricsKv.getMinValue() : curMin;
+            long max = (curMax < 0L || curMax < metricsKv.getMaxValue()) ? metricsKv.getMaxValue() : curMax;
+
+            jsonObject.put("num", num + metricsKv.getV2());
+            jsonObject.put("min", min);
+            jsonObject.put("max", max);
+
+            metricsQpsDay.setV1(average);
+            metricsQpsDay.setUpdateTime(new Date());
+            metricsQpsDay.setRemark(jsonObject.toString());
+            metricsQpsDayService.updateMetricsQpsDay(metricsQpsDay);
+        }
+    }
+
+    private void createMetricsQpsDay(MetricsKv metricsKv, String key1, String key2, String key3, String type, String remark) {
         MetricsQpsDay metricsQpsDay = new MetricsQpsDay();
         metricsQpsDay.setEnvironment(metricsKv.getEnvironment());
         metricsQpsDay.setAppName(metricsKv.getAppName());
@@ -128,7 +192,8 @@ public class MetricsConsumer {
         metricsQpsDay.setTime(metricsKv.getTime());
         metricsQpsDay.setCreateTime(new Date());
         metricsQpsDay.setUpdateTime(new Date());
-        metricsQpsDay.setLogType("QPS");
+        metricsQpsDay.setLogType(type);
+        metricsQpsDay.setRemark(remark);
         metricsQpsDayService.insertMetricsQpsDay(metricsQpsDay);
     }
 

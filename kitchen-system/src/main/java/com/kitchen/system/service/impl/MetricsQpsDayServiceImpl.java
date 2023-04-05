@@ -97,7 +97,7 @@ public class MetricsQpsDayServiceImpl extends ServiceImpl<MetricsQpsDayMapper, M
                 metricsQpsDays.add(newMetricsQpsDay);
             } else {
                 MetricsQpsDay metricsQps = dbMetricsQpsDays.get(0);
-                if (StringUtils.isNotEmpty(metricsQps.getRemark())) {
+                if (StringUtils.isNotEmpty(metricsQps.getRemark()) && !"QPS".equals(metricsQps.getRemark())) {
                     JSONObject jsonObject = JSON.parseObject(metricsQps.getRemark());
                     metricsQps.setMin(jsonObject.getLong("min"));
                     metricsQps.setMax(jsonObject.getLong("max"));

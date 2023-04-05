@@ -7,6 +7,7 @@ import com.kitchen.common.utils.bean.BeanUtils;
 import com.kitchen.system.domain.MetricsKv;
 import com.kitchen.system.domain.MetricsQpsDay;
 import com.kitchen.system.domain.vo.MetricsKvVo;
+import com.kitchen.system.domain.vo.RtVo;
 import com.kitchen.system.service.IMetricsKvService;
 import com.kitchen.system.service.IMetricsQpsDayService;
 import org.apache.pulsar.client.api.*;
@@ -149,33 +150,22 @@ public class MetricsConsumer {
     private void createAndUpdateRt(MetricsKv metricsKv, String key1, String key2, String key3) {
         List<MetricsQpsDay> metricsQpsDays = metricsQpsDayService.selectByTimeAndKeys(beginTime(), endTime(), "RT", key1, key2, key3);
         if (Objects.isNull(metricsQpsDays) || metricsQpsDays.isEmpty()) {
-            Long v2 = metricsKv.getV2();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("num", v2);
-            jsonObject.put("min", metricsKv.getMinValue());
-            jsonObject.put("max", metricsKv.getMaxValue());
-            createMetricsQpsDay(metricsKv, key1, key2, key3, "RT", jsonObject.toString());
+            RtVo rtVo = new RtVo(metricsKv.getV1(), metricsKv.getV2(), metricsKv.getMinValue(), metricsKv.getMaxValue());
+            createMetricsQpsDay(metricsKv, key1, key2, key3, "RT", JSON.toJSONString(rtVo));
         } else {
             MetricsQpsDay metricsQpsDay = metricsQpsDays.get(0);
             String remark = metricsQpsDay.getRemark();
-            JSONObject jsonObject = JSON.parseObject(remark);
-            Long num = jsonObject.getLong("num");
-            Long curMin = jsonObject.getLong("min");
-            Long curMax = jsonObject.getLong("max");
-            long allTime = metricsQpsDay.getV1() * num;
-            long l = allTime + metricsKv.getV1() * metricsKv.getV2();
-            long average = l / (num + metricsKv.getV2());
-
-            long min = (curMin < 0L || metricsKv.getMinValue() < curMin) ? metricsKv.getMinValue() : curMin;
-            long max = (curMax < 0L || curMax < metricsKv.getMaxValue()) ? metricsKv.getMaxValue() : curMax;
-
-            jsonObject.put("num", num + metricsKv.getV2());
-            jsonObject.put("min", min);
-            jsonObject.put("max", max);
-
+            RtVo rtVo = JSON.parseObject(remark, RtVo.class);
+            Long sumTimes = rtVo.getSumTimes();
+            long l = sumTimes + metricsKv.getV1();
+            long average = l / (rtVo.getNumber() + metricsKv.getV2());
+            rtVo.setNumber(rtVo.getNumber() + metricsKv.getV2());
+            rtVo.setSumTimes(l);
+            rtVo.setMax((rtVo.getMax() < 0L || rtVo.getMax() < metricsKv.getMaxValue()) ? metricsKv.getMaxValue() : rtVo.getMax());
+            rtVo.setMin((rtVo.getMin() < 0L || metricsKv.getMinValue() < rtVo.getMin()) ? metricsKv.getMinValue() : rtVo.getMin());
             metricsQpsDay.setV1(average);
             metricsQpsDay.setUpdateTime(new Date());
-            metricsQpsDay.setRemark(jsonObject.toString());
+            metricsQpsDay.setRemark(JSON.toJSONString(rtVo));
             metricsQpsDayService.updateMetricsQpsDay(metricsQpsDay);
         }
     }

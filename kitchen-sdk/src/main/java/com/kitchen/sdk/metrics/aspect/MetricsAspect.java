@@ -3,11 +3,15 @@ package com.kitchen.sdk.metrics.aspect;
 import com.kitchen.sdk.metrics.MetricsClient;
 import com.kitchen.sdk.metrics.annotation.Metrics;
 import com.kitchen.sdk.metrics.common.Type;
+import com.kitchen.sdk.metrics.util.StringUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +28,10 @@ import java.util.*;
  */
 @Aspect
 @Component
-public class MetricsAspect {
+public class MetricsAspect implements ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
+
     @Pointcut("@annotation(com.kitchen.sdk.metrics.annotation.Metrics)")
     public void auditRecord() {
 
@@ -41,12 +48,16 @@ public class MetricsAspect {
             String[] keys = metrics.value();
             MetricsClient client;
             checkKeys(keys);
+            String environment = metrics.environment();
+            if ("default".equals(environment)) {
+                environment = StringUtils.hasText(getActiveProfile()) ? getActiveProfile() : metrics.environment();
+            }
             if (keys.length == 1) {
-                client = MetricsClient.newInstance(keys[0], "", "", metrics.environment());
+                client = MetricsClient.newInstance(keys[0], "", "", environment);
             } else if (keys.length == 2) {
-                client = MetricsClient.newInstance(keys[0], keys[1], "", metrics.environment());
+                client = MetricsClient.newInstance(keys[0], keys[1], "", environment);
             } else {
-                client = MetricsClient.newInstance(keys[0], keys[1], keys[2], metrics.environment());
+                client = MetricsClient.newInstance(keys[0], keys[1], keys[2], environment);
             }
 
             result = joinPoint.proceed();
@@ -111,5 +122,20 @@ public class MetricsAspect {
                 throw new IllegalArgumentException();
             }
         }
+    }
+
+
+    /**
+     * 获取当前环境
+     *
+     * @return
+     */
+    public String getActiveProfile() {
+        return applicationContext.getEnvironment().getActiveProfiles()[0];
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

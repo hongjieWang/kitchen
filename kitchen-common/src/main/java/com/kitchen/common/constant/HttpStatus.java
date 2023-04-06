@@ -3,7 +3,7 @@ package com.kitchen.common.constant;
 /**
  * 返回状态码
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class HttpStatus
 {

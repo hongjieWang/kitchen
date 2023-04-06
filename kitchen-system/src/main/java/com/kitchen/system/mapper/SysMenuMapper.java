@@ -7,7 +7,7 @@ import com.kitchen.common.core.domain.entity.SysMenu;
 /**
  * 菜单表 数据层
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface SysMenuMapper
 {

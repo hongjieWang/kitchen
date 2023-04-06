@@ -3,7 +3,7 @@ package com.kitchen.common.exception.user;
 /**
  * 用户不存在异常类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class UserNotExistsException extends UserException
 {

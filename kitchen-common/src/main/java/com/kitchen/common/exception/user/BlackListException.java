@@ -3,7 +3,7 @@ package com.kitchen.common.exception.user;
 /**
  * 黑名单IP异常类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class BlackListException extends UserException
 {

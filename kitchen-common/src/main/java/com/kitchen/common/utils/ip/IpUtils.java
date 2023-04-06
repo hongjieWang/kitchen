@@ -9,7 +9,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 获取IP方法
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class IpUtils
 {

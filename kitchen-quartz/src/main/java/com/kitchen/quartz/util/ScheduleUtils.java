@@ -21,7 +21,7 @@ import com.kitchen.common.utils.spring.SpringUtils;
 /**
  * 定时任务工具类
  * 
- * @author ruoyi
+ * @author wanghongjie
  *
  */
 public class ScheduleUtils

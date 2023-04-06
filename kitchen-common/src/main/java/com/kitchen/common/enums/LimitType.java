@@ -3,7 +3,7 @@ package com.kitchen.common.enums;
 /**
  * 限流类型
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 
 public enum LimitType

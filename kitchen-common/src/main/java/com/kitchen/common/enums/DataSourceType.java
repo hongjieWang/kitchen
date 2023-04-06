@@ -3,7 +3,7 @@ package com.kitchen.common.enums;
 /**
  * 数据源
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public enum DataSourceType
 {

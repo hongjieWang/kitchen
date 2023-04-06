@@ -6,7 +6,7 @@ import com.kitchen.common.core.domain.entity.SysUser;
 /**
  * 用户 业务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface ISysUserService
 {

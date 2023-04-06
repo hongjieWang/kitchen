@@ -21,7 +21,7 @@ import com.kitchen.common.utils.SecurityUtils;
 /**
  * 登录密码方法
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Component
 public class SysPasswordService

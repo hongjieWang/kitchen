@@ -11,7 +11,7 @@ import com.kitchen.quartz.domain.SysJob;
 /**
  * 任务执行工具
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 public class JobInvokeUtil
 {

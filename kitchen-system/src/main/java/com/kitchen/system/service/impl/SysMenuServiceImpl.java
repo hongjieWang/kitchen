@@ -29,7 +29,7 @@ import com.kitchen.system.service.ISysMenuService;
 /**
  * 菜单 业务层处理
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Service
 public class SysMenuServiceImpl implements ISysMenuService

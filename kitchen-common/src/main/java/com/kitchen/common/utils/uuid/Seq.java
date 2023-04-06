@@ -5,7 +5,7 @@ import com.kitchen.common.utils.DateUtils;
 import com.kitchen.common.utils.StringUtils;
 
 /**
- * @author ruoyi 序列生成类
+ * @author wanghongjie 序列生成类
  */
 public class Seq
 {

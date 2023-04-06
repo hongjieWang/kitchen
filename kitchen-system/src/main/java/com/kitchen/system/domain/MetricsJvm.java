@@ -11,7 +11,7 @@ import com.kitchen.common.core.domain.BaseEntity;
 /**
  * 数据监控JVM参数对象 metrics_jvm
  *
- * @author ruoyi
+ * @author wanghongjie
  * @date 2023-03-01
  */
 public class MetricsJvm extends BaseEntity {

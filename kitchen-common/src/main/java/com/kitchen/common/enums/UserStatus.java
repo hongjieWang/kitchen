@@ -3,7 +3,7 @@ package com.kitchen.common.enums;
 /**
  * 用户状态
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public enum UserStatus
 {

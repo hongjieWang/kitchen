@@ -11,9 +11,9 @@ import com.kitchen.common.utils.SecurityUtils;
 import com.kitchen.common.utils.StringUtils;
 
 /**
- * RuoYi首创 自定义权限实现，ss取自SpringSecurity首字母
+ * wanghongjie首创 自定义权限实现，ss取自SpringSecurity首字母
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Service("ss")
 public class PermissionService

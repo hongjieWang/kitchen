@@ -34,7 +34,7 @@ import com.kitchen.system.service.ISysUserService;
 /**
  * 角色信息
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestController
 @RequestMapping("/system/role")

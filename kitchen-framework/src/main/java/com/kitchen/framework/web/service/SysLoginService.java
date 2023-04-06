@@ -33,7 +33,7 @@ import com.kitchen.system.service.ISysUserService;
 /**
  * 登录校验方法
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Component
 public class SysLoginService

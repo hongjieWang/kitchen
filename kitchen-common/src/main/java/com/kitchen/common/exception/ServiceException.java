@@ -3,7 +3,7 @@ package com.kitchen.common.exception;
 /**
  * 业务异常
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public final class ServiceException extends RuntimeException
 {

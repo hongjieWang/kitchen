@@ -7,7 +7,7 @@ import com.kitchen.common.constant.Constants;
 /**
  * VelocityEngine工厂
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class VelocityInitializer
 {

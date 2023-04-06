@@ -26,7 +26,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 通用http发送方法
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class HttpUtils
 {

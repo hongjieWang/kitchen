@@ -8,7 +8,7 @@ import com.kitchen.common.core.page.TableSupport;
 /**
  * 分页工具类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class PageUtils extends PageHelper
 {

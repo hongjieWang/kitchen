@@ -7,7 +7,7 @@ import com.kitchen.system.domain.MetricsKv;
 /**
  * 数据监控键值Service接口
  *
- * @author ruoyi
+ * @author wanghongjie
  * @date 2023-03-01
  */
 public interface IMetricsKvService {

@@ -26,7 +26,7 @@ import com.kitchen.system.service.ISysUserOnlineService;
 /**
  * 在线用户监控
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestController
 @RequestMapping("/monitor/online")

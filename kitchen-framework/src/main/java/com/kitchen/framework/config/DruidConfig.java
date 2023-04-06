@@ -28,7 +28,7 @@ import com.kitchen.common.utils.spring.SpringUtils;
 /**
  * druid 配置多数据源
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Configuration
 public class DruidConfig

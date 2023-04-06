@@ -7,7 +7,7 @@ import com.kitchen.common.core.domain.entity.SysUser;
 /**
  * 用户表 数据层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface SysUserMapper
 {

@@ -22,7 +22,7 @@ import com.kitchen.common.utils.ip.IpUtils;
 /**
  * 限流处理
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @Aspect
 @Component

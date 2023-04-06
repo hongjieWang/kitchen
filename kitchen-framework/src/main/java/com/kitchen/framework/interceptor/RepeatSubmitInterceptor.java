@@ -15,7 +15,7 @@ import com.kitchen.common.utils.ServletUtils;
 /**
  * 防止重复提交拦截器
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @Component
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {

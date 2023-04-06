@@ -6,7 +6,7 @@ import com.kitchen.common.core.domain.entity.SysDictType;
 /**
  * 字典表 数据层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface SysDictTypeMapper
 {

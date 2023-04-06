@@ -7,7 +7,7 @@ import com.kitchen.system.domain.SysNotice;
 /**
  * 公告 服务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface ISysNoticeService
 {

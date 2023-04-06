@@ -15,7 +15,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * Filter配置
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @Configuration
 public class FilterConfig

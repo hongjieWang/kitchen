@@ -6,7 +6,7 @@ import com.kitchen.system.domain.SysUserOnline;
 /**
  * 在线用户 服务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface ISysUserOnlineService
 {

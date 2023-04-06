@@ -12,7 +12,7 @@ import com.kitchen.common.core.domain.BaseEntity;
 /**
  * 菜单权限表 sys_menu
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class SysMenu extends BaseEntity
 {

@@ -5,7 +5,7 @@ import com.kitchen.common.exception.base.BaseException;
 /**
  * 用户信息异常类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class UserException extends BaseException
 {

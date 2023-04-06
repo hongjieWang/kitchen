@@ -20,7 +20,7 @@ import com.kitchen.common.utils.spring.SpringUtils;
 /**
  * 抽象quartz调用
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 public abstract class AbstractQuartzJob implements Job {
     private static final Logger log = LoggerFactory.getLogger(AbstractQuartzJob.class);

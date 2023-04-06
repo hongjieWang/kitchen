@@ -11,7 +11,7 @@ import com.kitchen.common.enums.OperatorType;
 /**
  * 自定义操作日志记录注解
  * 
- * @author ruoyi
+ * @author wanghongjie
  *
  */
 @Target({ ElementType.PARAMETER, ElementType.METHOD })

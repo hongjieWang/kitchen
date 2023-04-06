@@ -5,7 +5,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 缓存信息
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class SysCache
 {

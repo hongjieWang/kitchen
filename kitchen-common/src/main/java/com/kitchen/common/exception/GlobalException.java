@@ -3,7 +3,7 @@ package com.kitchen.common.exception;
 /**
  * 全局异常
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class GlobalException extends RuntimeException
 {

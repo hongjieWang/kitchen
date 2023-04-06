@@ -31,7 +31,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * Mybatis支持*匹配扫描包
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @Configuration
 public class MyBatisConfig {

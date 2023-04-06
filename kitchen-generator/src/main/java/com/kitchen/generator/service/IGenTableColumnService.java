@@ -6,7 +6,7 @@ import com.kitchen.generator.domain.GenTableColumn;
 /**
  * 业务字段 服务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface IGenTableColumnService
 {

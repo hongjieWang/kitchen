@@ -3,7 +3,7 @@ package com.kitchen.common.utils.sign;
 /**
  * Base64工具类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public final class Base64
 {

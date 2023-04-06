@@ -6,7 +6,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 基础异常
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class BaseException extends RuntimeException
 {

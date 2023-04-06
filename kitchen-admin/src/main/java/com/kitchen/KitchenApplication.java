@@ -7,11 +7,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 /**
  * 启动程序
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class RuoYiApplication {
+public class KitchenApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RuoYiApplication.class, args);
+        SpringApplication.run(KitchenApplication.class, args);
     }
 }

@@ -9,7 +9,7 @@ import com.kitchen.common.core.domain.BaseEntity;
 /**
  * 定时任务调度日志表 sys_job_log
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class SysJobLog extends BaseEntity
 {

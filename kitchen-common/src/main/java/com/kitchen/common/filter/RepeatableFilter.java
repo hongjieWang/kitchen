@@ -14,7 +14,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * Repeatable 过滤器
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class RepeatableFilter implements Filter
 {

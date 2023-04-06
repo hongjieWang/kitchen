@@ -37,7 +37,7 @@ import javax.validation.Validator;
 /**
  * 用户 业务层处理
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @Service
 public class SysUserServiceImpl implements ISysUserService {

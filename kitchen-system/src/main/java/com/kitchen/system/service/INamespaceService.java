@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 命名空间Service接口
  *
- * @author ruoyi
+ * @author wanghongjie
  * @date 2023-04-02
  */
 public interface INamespaceService extends IService<Namespace> {

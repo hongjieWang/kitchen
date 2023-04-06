@@ -22,7 +22,7 @@ import com.kitchen.common.core.text.Convert;
 /**
  * 客户端工具类
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 public class ServletUtils {
     /**

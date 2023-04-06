@@ -3,7 +3,7 @@ package com.kitchen.common.enums;
 /**
  * 操作人类别
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public enum OperatorType
 {

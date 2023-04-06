@@ -7,7 +7,7 @@ import com.kitchen.system.domain.SysOperLog;
 /**
  * 操作日志 服务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface ISysOperLogService
 {

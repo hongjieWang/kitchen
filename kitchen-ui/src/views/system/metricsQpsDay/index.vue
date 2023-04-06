@@ -143,7 +143,7 @@ export default {
         appName: null,
         keyValue: null,
         hostName: null,
-        logType: null,
+        logType: "QPS",
         v1: null,
         environment: null,
         keyOne: null,

@@ -18,7 +18,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 全局异常处理器
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler

@@ -7,7 +7,7 @@ import com.kitchen.system.domain.SysPost;
 /**
  * 岗位信息 服务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface ISysPostService
 {

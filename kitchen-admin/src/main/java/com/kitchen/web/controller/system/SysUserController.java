@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 /**
  * 用户信息
  *
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestController
 @RequestMapping("/system/user")

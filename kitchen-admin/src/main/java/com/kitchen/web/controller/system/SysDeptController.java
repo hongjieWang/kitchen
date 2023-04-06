@@ -25,7 +25,7 @@ import com.kitchen.system.service.ISysDeptService;
 /**
  * 部门信息
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestController
 @RequestMapping("/system/dept")

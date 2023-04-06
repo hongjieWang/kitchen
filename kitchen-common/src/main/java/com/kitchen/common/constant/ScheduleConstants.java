@@ -3,7 +3,7 @@ package com.kitchen.common.constant;
 /**
  * 任务调度通用常量
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class ScheduleConstants
 {

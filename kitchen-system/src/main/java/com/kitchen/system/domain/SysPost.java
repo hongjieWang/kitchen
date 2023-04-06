@@ -13,7 +13,7 @@ import com.kitchen.common.core.domain.BaseEntity;
 /**
  * 岗位表 sys_post
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class SysPost extends BaseEntity
 {

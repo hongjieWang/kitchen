@@ -7,7 +7,7 @@ import com.kitchen.generator.domain.GenTable;
 /**
  * 业务 服务层
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public interface IGenTableService
 {

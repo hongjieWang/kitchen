@@ -3,7 +3,7 @@ package com.kitchen.common.exception.user;
 /**
  * 验证码错误异常类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class CaptchaException extends UserException
 {

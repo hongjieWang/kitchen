@@ -3,7 +3,7 @@ package com.kitchen.common.enums;
 /**
  * 业务操作类型
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public enum BusinessType
 {

@@ -3,7 +3,7 @@ package com.kitchen.system.domain;
 /**
  * 当前在线会话
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class SysUserOnline
 {

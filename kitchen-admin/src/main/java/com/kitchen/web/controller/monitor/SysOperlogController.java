@@ -22,7 +22,7 @@ import com.kitchen.system.service.ISysOperLogService;
 /**
  * 操作日志记录
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestController
 @RequestMapping("/monitor/operlog")

@@ -5,7 +5,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 分页数据
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class PageDomain
 {

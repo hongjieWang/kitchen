@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fitness.common.annotation.Log;
-import com.fitness.common.core.controller.BaseController;
-import com.fitness.common.core.domain.AjaxResult;
-import com.fitness.common.enums.BusinessType;
+import com.jdd.common.response.ObjResponse;
+import com.jdd.common.response.PagedResponse;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
-import com.fitness.common.utils.poi.ExcelUtil;
 #if($table.crud || $table.sub)
-import com.fitness.common.core.page.TableDataInfo;
 #elseif($table.tree)
 #end
 
@@ -33,6 +29,7 @@ import com.fitness.common.core.page.TableDataInfo;
  * @date ${datetime}
  */
 @RestController
+@Api(tags = "${functionName}")
 @RequestMapping("/${moduleName}/${businessName}" )
 public class ${ClassName}Controller extends BaseController {
     @Resource
@@ -41,75 +38,60 @@ public class ${ClassName}Controller extends BaseController {
 /**
  * 查询${functionName}列表
  */
-@PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')" )
 @Metrics(value = {"XX服务", "${functionName}", "列表查询"})
+@ApiOperation(value = "${functionName}-列表", notes = "${functionName}-列表", httpMethod = "GET")
 @GetMapping("/list" )
     #if($table.crud || $table.sub)
-    public TableDataInfo list(${ClassName} ${className}) {
+    public PagedResponse list(${ClassName} ${className}) {
         startPage();
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return getDataTable(list);
+        return getPagedResponse(list);
     }
     #elseif($table.tree)
-        public AjaxResult list(${ClassName} ${className}) {
+        public ObjResponse<${ClassName}> list(${ClassName} ${className}) {
             List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-            return AjaxResult.success(list);
+            return ObjResponse.of(list);
         }
     #end
 
-    /**
-     * 导出${functionName}列表
-     */
-    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:export')" )
-    @Log(title = "${functionName}", businessType = BusinessType.EXPORT)
-    @Metrics(value = {"XX服务", "${functionName}", "Excel导出"})
-    @PostMapping("/export" )
-    public void export(HttpServletResponse response, ${ClassName} ${className}) {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}. class);
-        util.exportExcel(response, list, "${functionName}数据" );
-    }
 
     /**
      * 获取${functionName}详细信息
      */
-    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:query')" )
     @Metrics(value = {"XX服务", "${functionName}", "查询详情"})
+    @ApiOperation(value = "${functionName}-查询详情", notes = "${functionName}-查询详情", httpMethod = "GET")
     @GetMapping(value = "/{${pkColumn.javaField}}" )
-    public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}" ) ${pkColumn.javaType} ${pkColumn.javaField}) {
-        return AjaxResult.success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+    public ObjResponse getInfo(@PathVariable("${pkColumn.javaField}" ) ${pkColumn.javaType} ${pkColumn.javaField}) {
+        return ObjResponse.of(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }
 
     /**
      * 新增${functionName}
      */
-    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:add')" )
-    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
-    @Metrics(value = {"XX服务", "${functionName}", "创建数据"})
+    @Metrics(value = {"XX服务", "${functionName}", "新增数据"})
+    @ApiOperation(value = "${functionName}-新增数据", notes = "${functionName}-新增数据", httpMethod = "POST")
     @PostMapping
-    public AjaxResult add(@RequestBody ${ClassName} ${className}) {
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+    public ObjResponse<Integer> add(@RequestBody ${ClassName} ${className}) {
+        return ObjResponse.of(${className}Service.insert${ClassName}(${className}));
     }
 
     /**
      * 修改${functionName}
      */
-    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:edit')" )
-    @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
     @Metrics(value = {"XX服务", "${functionName}", "更新数据"})
+    @ApiOperation(value = "${functionName}-更新数据", notes = "${functionName}-更新数据", httpMethod = "PUT")
     @PutMapping
-    public AjaxResult edit(@RequestBody ${ClassName} ${className}) {
-        return toAjax(${className}Service.update${ClassName}(${className}));
+    public ObjResponse<Integer> edit(@RequestBody ${ClassName} ${className}) {
+        return ObjResponse.of(${className}Service.update${ClassName}(${className}));
     }
 
     /**
      * 删除${functionName}
      */
-    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:remove')" )
-    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
     @Metrics(value = {"XX服务", "${functionName}", "删除数据"})
+    @ApiOperation(value = "${functionName}-删除数据", notes = "${functionName}-删除数据", httpMethod = "Delete")
     @DeleteMapping("/{${pkColumn.javaField}s}" )
-    public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s) {
-        return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
+    public ObjResponse<Integer> remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        return ObjResponse.of(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
     }
 }

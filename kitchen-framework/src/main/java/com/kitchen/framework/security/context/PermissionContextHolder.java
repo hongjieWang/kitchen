@@ -7,7 +7,7 @@ import com.kitchen.common.core.text.Convert;
 /**
  * 权限信息
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class PermissionContextHolder
 {

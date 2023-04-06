@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * 数据监控JVM参数Service业务层处理
  *
- * @author ruoyi
+ * @author wanghongjie
  * @date 2023-03-01
  */
 @Service

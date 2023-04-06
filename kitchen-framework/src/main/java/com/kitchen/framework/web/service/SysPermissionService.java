@@ -13,7 +13,7 @@ import com.kitchen.system.service.ISysRoleService;
 /**
  * 用户权限处理
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Component
 public class SysPermissionService

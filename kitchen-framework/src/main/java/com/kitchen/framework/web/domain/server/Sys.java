@@ -3,7 +3,7 @@ package com.kitchen.framework.web.domain.server;
 /**
  * 系统相关信息
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class Sys
 {

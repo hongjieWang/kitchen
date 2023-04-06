@@ -23,7 +23,7 @@ import com.kitchen.system.service.ISysLogininforService;
 /**
  * 系统访问记录
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @RestController
 @RequestMapping("/monitor/logininfor")

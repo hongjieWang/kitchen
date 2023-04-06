@@ -11,7 +11,7 @@ import com.kitchen.common.core.redis.RedisCache;
 /**
  * 字典工具类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class DictUtils
 {

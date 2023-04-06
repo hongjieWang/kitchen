@@ -3,7 +3,7 @@ package com.kitchen.common.utils.file;
 /**
  * 媒体类型工具类
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class MimeTypeUtils
 {

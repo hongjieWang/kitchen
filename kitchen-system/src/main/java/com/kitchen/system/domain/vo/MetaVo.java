@@ -5,7 +5,7 @@ import com.kitchen.common.utils.StringUtils;
 /**
  * 路由显示信息
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 public class MetaVo
 {

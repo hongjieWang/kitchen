@@ -11,14 +11,14 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.kitchen.common.config.RuoYiConfig;
+import com.kitchen.common.config.KitchenConfig;
 import com.kitchen.common.constant.Constants;
 import com.kitchen.framework.interceptor.RepeatSubmitInterceptor;
 
 /**
  * 通用配置
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer
@@ -31,7 +31,7 @@ public class ResourcesConfig implements WebMvcConfigurer
     {
         /** 本地文件上传路径 */
         registry.addResourceHandler(Constants.RESOURCE_PREFIX + "/**")
-                .addResourceLocations("file:" + RuoYiConfig.getProfile() + "/");
+                .addResourceLocations("file:" + KitchenConfig.getProfile() + "/");
 
         /** swagger配置 */
         registry.addResourceHandler("/swagger-ui/**")
